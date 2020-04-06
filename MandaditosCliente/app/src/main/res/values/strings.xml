@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="name">Nombre</string>
+    <string name="email">Correo</string>
+    <string name="password">Contraseña</string>
+    <string name="create_account">Crear cuenta</string>
+    <string name="already_a_member_login">¿Ya tienes una cuenta? Iniciar sesión</string>
 
-    <string name="app_name">MandaditosCliente</string>
+    <string name="login">Acceder</string>
+    <string name="no_account_yet_create_one">¿Sin cuenta? Crear una ahora</string>
+
+
+    <string name="app_name">Encomiendas SV</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>
