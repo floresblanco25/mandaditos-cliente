@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="welcome_how_can_i_help_you">Bienvenido Mario, ¿Cómo puedo ayudarte?</string>
+
     <string name="name">Nombre</string>
     <string name="email">Correo</string>
     <string name="password">Contraseña</string>
@@ -12,5 +14,11 @@
 
     <string name="app_name">Encomiendas SV</string>
     <string name="hello_world">Hello world!</string>
-
+	
+	
+	
+	
+	
+	<string name="enviar_un_pedido">Enviar un pedido</string>
+	<string name="enviar_un_pedido_descripcion">Enviar algo</string>
 </resources>

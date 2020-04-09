@@ -12,4 +12,8 @@
         <item name="android:background">@color/primary</item>
     </style>
 	
+	<style name="Titles">
+        <item name="android:background">@color/primary</item>
+    </style>
+	
 </resources>

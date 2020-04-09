@@ -31,6 +31,8 @@ public class LoginActivity extends AppCompatActivity
 		_emailText = findViewById(R.id.input_email);
         ButterKnife.inject(this);
 
+		Intent intent = new Intent(getApplicationContext(), Home.class);
+		startActivityForResult(intent, RESULT_OK);
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
