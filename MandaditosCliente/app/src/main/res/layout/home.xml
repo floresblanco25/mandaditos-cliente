@@ -1,26 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
 	android:orientation="vertical"
-	android:layout_margin="16dp">
+	android:gravity="left|center"
+	android:padding="16dp"
+	android:background="@color/background">
 
-	<TextView
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/welcome_how_can_i_help_you"
-		android:gravity="center"
-		android:layout_margin="18dp"
-		android:textColor="#707172"
-		android:textSize="18sp"
-		android:textStyle="bold"/>
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:src="@drawable/menu_icon"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:tint="#52416C"
+			android:layout_gravity="left|center"/>
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/welcome_how_can_i_help_you"
+			android:textColor="#52416C"
+			android:textSize="18sp"
+			android:textStyle="bold"
+			android:gravity="center"/>
+
+	</LinearLayout>
 
 	<android.support.v7.widget.RecyclerView
 		xmlns:app="http://schemas.android.com/apk/res-auto"
 		android:id="@+id/recycler_services"
 		android:layout_width="match_parent"
-		android:layout_height="match_parent">
+		android:layout_height="match_parent"
+		android:layout_marginTop="16dp">
 
 	</android.support.v7.widget.RecyclerView>
 

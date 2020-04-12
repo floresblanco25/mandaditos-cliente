@@ -6,6 +6,7 @@ import android.view.*;
 import android.widget.*;
 import com.mandaditos.cliente.*;
 import java.util.*;
+import android.view.View.*;
 
 public class ServicesAdapter extends RecyclerView.Adapter<serviceViewHolder>
  {
@@ -41,6 +42,7 @@ class serviceViewHolder extends RecyclerView.ViewHolder {
 
     ImageView mImage;
     TextView mTitle,mDetails;
+	CardView cv;
 
     serviceViewHolder(View itemView) {
         super(itemView);
@@ -48,5 +50,16 @@ class serviceViewHolder extends RecyclerView.ViewHolder {
         mImage = itemView.findViewById(R.id.ivImage);
         mTitle = itemView.findViewById(R.id.tvTitle);
 		mDetails = itemView.findViewById(R.id.servDetails);
+		cv = itemView.findViewById(R.id.cardview);
+		
+		itemView.setOnClickListener(new OnClickListener(){
+
+@Override
+public void onClick(View p1)
+{
+	final Intent i = new Intent(p1.getContext(), LauncherActivity.class);
+	p1.getContext().startActivity(i);
+}
+});
     }
 }

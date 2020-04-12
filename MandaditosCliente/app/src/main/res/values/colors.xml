@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<color name="primary">#6AB4FF</color>
-	<color name="primaryDark">#555555</color>
+	<color name="primaryDark">#CDCDCD</color>
 	<color name="primary_darker">#CC1D1D</color>
 	<color name="accent">#3D5E9A</color>
+	
+	
+	
+	<color name="background">#FFFFFF</color>
 	
 	
 	<color name="ok_buttons">@color/primary</color>

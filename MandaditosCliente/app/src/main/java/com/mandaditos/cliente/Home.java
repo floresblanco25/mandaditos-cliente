@@ -1,13 +1,29 @@
 package com.mandaditos.cliente;
+import android.Manifest;
+import android.content.*;
+import android.graphics.*;
+import android.net.*;
 import android.os.*;
+import android.support.annotation.*;
+import android.support.design.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
+import android.text.*;
+import android.view.*;
+import android.view.View.*;
+import android.widget.*;
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
+import android.support.v7.widget.Toolbar;
 public class Home extends AppCompatActivity
 {
 
 	private ServicesModel enviarpedido;
+	private RequestPermissionHandler mRequestPermissionHandler;
+
+	
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -19,7 +35,8 @@ public class Home extends AppCompatActivity
 		LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 		layoutManager.scrollToPosition(0);
 		mRecyclerView.setLayoutManager(mGridLayoutManager);
-		
+		mRequestPermissionHandler = new RequestPermissionHandler();
+		mCheckPermission();
 		
 		
 		
@@ -46,5 +63,30 @@ public class Home extends AppCompatActivity
 		mRecyclerView.setAdapter(myAdapter);
 		
 		}
+		
+	//Permissions
+	private void mCheckPermission(){
+		mRequestPermissionHandler.requestPermission(this, new String[] {
+				Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
+			}, 123, new RequestPermissionHandler.RequestPermissionListener() {
+				@Override
+				public void onSuccess() {
+				}
+
+				@Override
+				public void onFailed() {
+				}
+			});
+
+	}
+
+	@Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        mRequestPermissionHandler.onRequestPermissionsResult(requestCode, permissions,
+															 grantResults);
+    }
+	
 		
 }
