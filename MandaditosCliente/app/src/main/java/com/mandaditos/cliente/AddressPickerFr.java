@@ -3,40 +3,15 @@ import android.app.*;
 import android.location.*;
 import android.os.*;
 import android.view.*;
-import com.google.android.gms.common.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
+import java.io.*;
+import java.util.*;
 
 import com.mandaditos.cliente.R;
-public class AddressPickerFr extends Fragment implements OnMapReadyCallback,LocationListener
+public class AddressPickerFr extends Fragment implements OnMapReadyCallback
 {
-
-	@Override
-	public void onLocationChanged(Location location)
-	{
-			//Move the camera to the user's location and zoom in!
-			gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 100.0f));
-	}
-
-	@Override
-	public void onStatusChanged(String p1, int p2, Bundle p3)
-	{
-		// TODO: Implement this method
-	}
-
-	@Override
-	public void onProviderEnabled(String p1)
-	{
-		// TODO: Implement this method
-	}
-
-	@Override
-	public void onProviderDisabled(String p1)
-	{
-		// TODO: Implement this method
-	}
-	
 
 	
 	private MapView mapView;
@@ -56,20 +31,65 @@ public class AddressPickerFr extends Fragment implements OnMapReadyCallback,Loca
 		gmap.setMyLocationEnabled(true);
 		
 		
-		LocationManager locationManager = (LocationManager)
-			getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
 		Criteria criteria = new Criteria();
-		Location location = locationManager.getLastKnownLocation(locationManager
-																 .getBestProvider(criteria, false));
-		double latitude = location.getLatitude();
-		double longitude = location.getLongitude();
+
+		Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+		if (location != null)
+		{
+			gmap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+				.target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
+				.zoom(20)                   // Sets the zoom
+				.bearing(90)                // Sets the orientation of the camera to east
+				.build();                   // Creates a CameraPosition from the builder
+			gmap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));       
+		}
 		
+		//LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(latLng);
+//        gmap.clear();
+//        markerOptions.title("Current Position");
+//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
+//        markerOptions.getPosition();
+//        Marker mCurrLocationMarker = gmap.addMarker(markerOptions);
+//		
 		
-		
-        LatLng sv = new LatLng(latitude, longitude);
-        gmap.moveCamera(CameraUpdateFactory.newLatLng(sv));
+		if(gmap != null) {
+
+			gmap.setOnMapLongClickListener(new
+				GoogleMap.OnMapLongClickListener() {
+
+					private Marker marker;
+					@Override
+					public void onMapLongClick (LatLng latLng){
+						Geocoder geocoder =
+							new Geocoder(getActivity());
+						List<Address> list;
+						try {
+							list = geocoder.getFromLocation(latLng.latitude,
+															latLng.longitude, 1);
+						} catch (IOException e) {
+							return;
+						}
+						Address address = list.get(0);
+						if (marker != null) {
+							marker.remove();
+						}
+
+						MarkerOptions options = new MarkerOptions()
+							.title(address.getLocality())
+							.position(new LatLng(latLng.latitude,
+												 latLng.longitude));
+
+						marker = gmap.addMarker(options);
+					}
+				});
+				}
 	}
-	
+
 	
 	
 	
@@ -122,6 +142,8 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle sa
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
+	
+
 	
 	
 	return v;

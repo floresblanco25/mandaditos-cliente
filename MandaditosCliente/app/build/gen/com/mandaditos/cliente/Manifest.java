@@ -10,6 +10,5 @@ package com.mandaditos.cliente;
 public final class Manifest {
     public static final class permission {
         public static final String MAPS_RECEIVE="com.example.permission.MAPS_RECEIVE";
-
     }
 }
