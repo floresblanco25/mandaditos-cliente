@@ -32,7 +32,7 @@ public class LauncherActivity extends AppCompatActivity
 			FragmentManager manager = getFragmentManager();
 			final FragmentTransaction transaction= manager.beginTransaction();
 
-			fragmentToOpen = AddressPickerFr.newInstance();
+			fragmentToOpen = mandaditosMainFr.newInstance();
 
 
 			try

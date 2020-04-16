@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="listo_para_hacer_un_envío">¿Listo para hacer un envío?</string>
+    <string name="punto_a">Punto A</string>
+    <string name="dirección_de_recogida">Dirección de recogida</string>
+    <string name="dirección_de_entrega">Dirección de entrega</string>
+
     <string name="welcome_how_can_i_help_you">Bienvenido Mario, ¿Cómo puedo ayudarte?</string>
 
     <string name="name">Nombre</string>

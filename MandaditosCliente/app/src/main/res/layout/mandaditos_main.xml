@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<com.google.android.gms.maps.MapView
+		android:id="@+id/map_view"
+		android:layout_weight="1.8"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent">
+
+	</com.google.android.gms.maps.MapView>
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_weight="1"
+		android:padding="16dp">
+
+		<TextView
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/listo_para_hacer_un_envío"
+			android:layout_marginBottom="24dp"
+			style="@style/title"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/punto_a"
+			style="@style/info"
+			android:layout_marginBottom="8dp"/>
+
+		<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="16dp"
+			android:hint="@string/dirección_de_recogida"
+			style="@style/rounded_edittext"/>
+
+		<EditText
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginBottom="8dp"
+			android:hint="@string/dirección_de_entrega"
+			style="@style/rounded_edittext"/>
+
+		<FrameLayout
+			android:layout_width="match_parent"
+			android:layout_height="fill_parent">
+
+			<Button
+				android:layout_height="wrap_content"
+				android:text="Siguiente"
+				android:layout_gravity="bottom|center"
+				android:background="@drawable/rounded_button_soft"
+				android:textColor="#FFFFFF"
+				android:layout_width="match_parent"
+				android:layout_margin="16dp"/>
+
+		</FrameLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

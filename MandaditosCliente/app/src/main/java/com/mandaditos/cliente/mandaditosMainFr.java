@@ -10,12 +10,14 @@ import java.io.*;
 import java.util.*;
 
 import com.mandaditos.cliente.R;
-public class AddressPickerFr extends Fragment implements OnMapReadyCallback
+ class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 {
 
 	
 	private MapView mapView;
     private GoogleMap gmap;
+	
+	
 	
 	
 	
@@ -46,16 +48,6 @@ public class AddressPickerFr extends Fragment implements OnMapReadyCallback
 				.build();                   // Creates a CameraPosition from the builder
 			gmap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));       
 		}
-		
-		//LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-//        MarkerOptions markerOptions = new MarkerOptions();
-//        markerOptions.position(latLng);
-//        gmap.clear();
-//        markerOptions.title("Current Position");
-//        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher));
-//        markerOptions.getPosition();
-//        Marker mCurrLocationMarker = gmap.addMarker(markerOptions);
-//		
 		
 		if(gmap != null) {
 
@@ -98,9 +90,9 @@ public class AddressPickerFr extends Fragment implements OnMapReadyCallback
 	
 	
 	//Constructor
-	public static AddressPickerFr newInstance()
+	public static mandaditosMainFr newInstance()
 	{
-        AddressPickerFr fragment = new AddressPickerFr();
+        mandaditosMainFr fragment = new mandaditosMainFr();
         return fragment;
     }
 	
@@ -133,7 +125,7 @@ super.onCreate(savedInstanceState);
 @Override
 public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 {
-	View v = inflater.inflate(R.layout.addresspicker, container, false);
+	View v = inflater.inflate(R.layout.mandaditos_main, container, false);
 	Bundle mapViewBundle = null;
 	if (savedInstanceState != null) {
 		mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);

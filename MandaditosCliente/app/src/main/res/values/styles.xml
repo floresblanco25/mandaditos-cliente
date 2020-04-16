@@ -12,8 +12,28 @@
         <item name="android:background">@color/primary</item>
     </style>
 	
-	<style name="Titles">
-        <item name="android:background">@color/primary</item>
+	<style name="title">
+        <item name="android:textStyle">bold</item>
+		<item name="android:textSize">21sp</item>
+		<item name="android:textColor">@color/title</item>
+    </style>
+	
+	<style name="info">
+        <item name="android:textStyle">normal</item>
+		<item name="android:textSize">12sp</item>
+		<item name="android:textColor">@color/info</item>
+    </style>
+	
+	<style name="rounded_edittext">
+        <item name="android:background">@drawable/rounded_edittext</item>
+		<item name="android:elevation">5dp</item>
+		<item name="android:padding">16dp</item>
+		<item name="android:layout_marginLeft">4dp</item>
+		<item name="android:layout_marginRight">4dp</item>
+		<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+		<item name="android:textStyle">normal</item>
+		<item name="android:textSize">12sp</item>
+		<item name="android:textColor">@color/info</item>
     </style>
 	
 </resources>

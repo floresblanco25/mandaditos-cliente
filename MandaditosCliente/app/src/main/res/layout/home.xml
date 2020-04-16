@@ -24,10 +24,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/welcome_how_can_i_help_you"
-			android:textColor="#52416C"
-			android:textSize="18sp"
-			android:textStyle="bold"
-			android:gravity="center"/>
+			android:gravity="center"
+			style="@style/title"/>
 
 	</LinearLayout>
 
