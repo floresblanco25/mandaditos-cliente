@@ -23,9 +23,8 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
     private GoogleMap gmap;
 	private EditText edPartida,edDestino;
 	private String address_A;
-	private LatLng mLatLng_A,mLatLng_B;
+	private LatLng mLatLng_A;
 	private Fragment fragmentToOpen;
-	private String where=null;
 	
 	
 	
@@ -77,7 +76,7 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	
 	
 //Constructor
-	public static mandaditosMainFr newInstance(String address, LatLng mLatLng_A, String where)
+	public static mandaditosMainFr newInstance(String address, LatLng mLatLng_A)
 	{
 		mandaditosMainFr fragnent = new mandaditosMainFr();
 		Bundle args = new Bundle();
@@ -151,7 +150,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 	
 //get address from addresspicker
-	edPartida.setText(address_A+where);
+	edPartida.setText(address_A);
 	
 	
 	
@@ -173,7 +172,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
 
-					fragmentToOpen = addressPickerFr.newInstance("partida");
+					fragmentToOpen = addressPickerFr.newInstance();
 
 
 					try
@@ -201,7 +200,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
 
-					fragmentToOpen = addressPickerFr.newInstance("destino");
+					fragmentToOpen = addressPickerFr.newInstance();
 
 
 					try

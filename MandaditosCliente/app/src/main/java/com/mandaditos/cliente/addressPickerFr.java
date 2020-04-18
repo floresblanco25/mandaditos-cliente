@@ -21,7 +21,6 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	private EditText edAddress;
 	private MarkerOptions marker;
 	private LatLng mLatLng;
-	private String where;
 
 
 
@@ -84,11 +83,10 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 	//Constructor
-	public static addressPickerFr newInstance(String where)
+	public static addressPickerFr newInstance()
 	{
         addressPickerFr fragment = new addressPickerFr();
 		Bundle args = new Bundle();
-		args.putString("where", where);
 		fragment.setArguments(args);
         return fragment;
     }
@@ -108,7 +106,6 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
-		where = getArguments().getString("where");
 		super.onCreate(savedInstanceState);
 
 	}
@@ -160,7 +157,7 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
 					address = edAddress.getText().toString();
-					fragmentToOpen = mandaditosMainFr.newInstance(address,mLatLng,where);
+					fragmentToOpen = mandaditosMainFr.newInstance(address,mLatLng);
 
 
 					try
