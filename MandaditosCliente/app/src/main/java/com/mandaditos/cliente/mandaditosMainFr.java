@@ -8,14 +8,24 @@ import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
 import java.io.*;
 import java.util.*;
-
 import com.mandaditos.cliente.R;
- class mandaditosMainFr extends Fragment implements OnMapReadyCallback
-{
+import android.widget.*;
+import android.view.View.*;
 
-	
+
+
+
+
+
+public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
+{
 	private MapView mapView;
     private GoogleMap gmap;
+	private EditText edPartida,edDestino;
+	private String address_A;
+	private LatLng mLatLng_A,mLatLng_B;
+	private Fragment fragmentToOpen;
+	private String where=null;
 	
 	
 	
@@ -24,7 +34,7 @@ import com.mandaditos.cliente.R;
 	
 	
 	
-	
+	//map ready
 	@Override
 	public void onMapReady(GoogleMap p1)
 	{
@@ -49,36 +59,9 @@ import com.mandaditos.cliente.R;
 			gmap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));       
 		}
 		
-		if(gmap != null) {
+		if(mLatLng_A != null) {
+			gmap.addMarker(new MarkerOptions().position(mLatLng_A));
 
-			gmap.setOnMapLongClickListener(new
-				GoogleMap.OnMapLongClickListener() {
-
-					private Marker marker;
-					@Override
-					public void onMapLongClick (LatLng latLng){
-						Geocoder geocoder =
-							new Geocoder(getActivity());
-						List<Address> list;
-						try {
-							list = geocoder.getFromLocation(latLng.latitude,
-															latLng.longitude, 1);
-						} catch (IOException e) {
-							return;
-						}
-						Address address = list.get(0);
-						if (marker != null) {
-							marker.remove();
-						}
-
-						MarkerOptions options = new MarkerOptions()
-							.title(address.getLocality())
-							.position(new LatLng(latLng.latitude,
-												 latLng.longitude));
-
-						marker = gmap.addMarker(options);
-					}
-				});
 				}
 	}
 
@@ -89,13 +72,20 @@ import com.mandaditos.cliente.R;
 	
 	
 	
-	//Constructor
-	public static mandaditosMainFr newInstance()
-	{
-        mandaditosMainFr fragment = new mandaditosMainFr();
-        return fragment;
-    }
 	
+	
+	
+	
+//Constructor
+	public static mandaditosMainFr newInstance(String address, LatLng mLatLng_A, String where)
+	{
+		mandaditosMainFr fragnent = new mandaditosMainFr();
+		Bundle args = new Bundle();
+		args.putString("address", address);
+		args.putParcelable("latlngA", mLatLng_A);
+		fragnent.setArguments(args);
+		return fragnent;
+	}
 	private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
 	
 	
@@ -103,11 +93,21 @@ import com.mandaditos.cliente.R;
 	
 	
 	
-
 	
+	
+	
+	
+	
+	
+	
+	
+
+	//get bundle
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 {
+address_A = getArguments().getString("address");
+mLatLng_A = getArguments().getParcelable("latlngA");
 super.onCreate(savedInstanceState);
 	
 }
@@ -122,19 +122,99 @@ super.onCreate(savedInstanceState);
 
 
 
+
+
+
+//content view
 @Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState)
 {
 	View v = inflater.inflate(R.layout.mandaditos_main, container, false);
 	Bundle mapViewBundle = null;
 	if (savedInstanceState != null) {
 		mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
 	}
-
+	
+	edPartida = v.findViewById(R.id.mandaditosmainEditText1);
+	edDestino = v.findViewById(R.id.mandaditosmainEditText2);
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//get address from addresspicker
+	edPartida.setText(address_A+where);
+	
+	
+	
+	
+	
+	
+//ed click 
+	edPartida.setOnClickListener(new View.OnClickListener(){
+
+			@Override
+			public void onClick(View p1)
+			{
+				if (savedInstanceState != null)
+				{
+					fragmentToOpen = getFragmentManager().getFragment(savedInstanceState, "current");
+				}
+				else
+				{
+					FragmentManager manager = getFragmentManager();
+					final FragmentTransaction transaction= manager.beginTransaction();
+
+					fragmentToOpen = addressPickerFr.newInstance("partida");
+
+
+					try
+					{
+						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "current");
+						transaction.commit();	}
+					catch (Exception e)
+					{
+						e.printStackTrace();	}
+				}
+				
+			}
+		});
+	edDestino.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View p1)
+			{
+				if (savedInstanceState != null)
+				{
+					fragmentToOpen = getFragmentManager().getFragment(savedInstanceState, "current");
+				}
+				else
+				{
+					FragmentManager manager = getFragmentManager();
+					final FragmentTransaction transaction= manager.beginTransaction();
+
+					fragmentToOpen = addressPickerFr.newInstance("destino");
+
+
+					try
+					{
+						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "current");
+						transaction.commit();	}
+					catch (Exception e)
+					{
+						e.printStackTrace();	}
+				}
+				
+			}
+		});
 
 	
 	

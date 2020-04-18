@@ -9,14 +9,19 @@ import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
 import java.io.*;
 import java.util.*;
-
 import com.mandaditos.cliente.R;
-class addressPickerFr extends Fragment implements OnMapReadyCallback
+import android.widget.*;
+import android.view.View.*;
+public class addressPickerFr extends Fragment implements OnMapReadyCallback
 {
-
-
 	private MapView mapView;
     private GoogleMap gmap;
+	private Button okbtn;
+	private String address;
+	private EditText edAddress;
+	private MarkerOptions marker;
+	private LatLng mLatLng;
+	private String where;
 
 
 
@@ -24,8 +29,10 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 
-
-
+	
+	
+	
+	//map ready
 	@Override
 	public void onMapReady(GoogleMap p1)
 	{
@@ -49,38 +56,19 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 				.build();                   // Creates a CameraPosition from the builder
 			gmap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));       
 		}
+		//marker
+		gmap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
-		if(gmap != null) {
-
-			gmap.setOnMapLongClickListener(new
-				GoogleMap.OnMapLongClickListener() {
-
-					private Marker marker;
-					@Override
-					public void onMapLongClick (LatLng latLng){
-						Geocoder geocoder =
-							new Geocoder(getActivity());
-						List<Address> list;
-						try {
-							list = geocoder.getFromLocation(latLng.latitude,
-															latLng.longitude, 1);
-						} catch (IOException e) {
-							return;
-						}
-						Address address = list.get(0);
-						if (marker != null) {
-							marker.remove();
-						}
-
-						MarkerOptions options = new MarkerOptions()
-							.title(address.getLocality())
-							.position(new LatLng(latLng.latitude,
-												 latLng.longitude));
-
-						marker = gmap.addMarker(options);
-					}
-				});
-		}
+				@Override
+				public void onMapClick(LatLng point) {
+					gmap.clear();
+					marker = new MarkerOptions().position(point);
+					mLatLng = marker.getPosition();
+					gmap.addMarker(marker);
+				}
+			});
+			
+			
 	}
 
 
@@ -88,12 +76,20 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 
+	
+	
+	
+	
+	
 
 
 	//Constructor
-	public static addressPickerFr newInstance()
+	public static addressPickerFr newInstance(String where)
 	{
         addressPickerFr fragment = new addressPickerFr();
+		Bundle args = new Bundle();
+		args.putString("where", where);
+		fragment.setArguments(args);
         return fragment;
     }
 
@@ -106,9 +102,13 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 
+	
+	
+	//get args
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
+		where = getArguments().getString("where");
 		super.onCreate(savedInstanceState);
 
 	}
@@ -122,23 +122,66 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 
-
+	//set view
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		View v = inflater.inflate(R.layout.mandaditos_main, container, false);
+		View v = inflater.inflate(R.layout.address_picker, container, false);
 		Bundle mapViewBundle = null;
 		if (savedInstanceState != null) {
 			mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
 		}
-
-		mapView = v.findViewById(R.id.map_view);
+		edAddress = v.findViewById(R.id.address_pickerEditText);
+		mapView = v.findViewById(R.id.map_view_picker);
 		mapView.onCreate(mapViewBundle);
 		mapView.getMapAsync(this);
+		
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		//button ok
+		okbtn = v.findViewById(R.id.address_pickerButtonNext);
+		okbtn.setOnClickListener(new OnClickListener(){
+
+				private mandaditosMainFr fragmentToOpen;
+
+				@Override
+				public void onClick(View p1)
+				{
+					FragmentManager manager = getFragmentManager();
+					final FragmentTransaction transaction= manager.beginTransaction();
+					address = edAddress.getText().toString();
+					fragmentToOpen = mandaditosMainFr.newInstance(address,mLatLng,where);
+
+
+					try
+					{
+						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "addresspicker");
+						transaction.commit();	}
+					catch (Exception e)
+					{
+						e.printStackTrace();	}
+				}
+			});
 
 
 
-
+			
+			
+			
+			
+			
+			
+		//end
 		return v;
 
 	}
@@ -147,6 +190,12 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 
 
+	
+	
+	
+	
+	
+	//instance
 	@Override
 	public void onSaveInstanceState(Bundle outState)
 	{
@@ -160,6 +209,22 @@ class addressPickerFr extends Fragment implements OnMapReadyCallback
 		mapView.onSaveInstanceState(mapViewBundle);
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//cycles
 	@Override
 	public void onResume()
 	{

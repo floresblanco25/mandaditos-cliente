@@ -36,18 +36,22 @@
 			android:layout_marginBottom="8dp"/>
 
 		<EditText
+			android:editable="false"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="16dp"
 			android:hint="@string/dirección_de_recogida"
-			style="@style/rounded_edittext"/>
+			style="@style/rounded_edittext"
+			android:id="@+id/mandaditosmainEditText1"/>
 
 		<EditText
+			android:editable="false"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_marginBottom="8dp"
 			android:hint="@string/dirección_de_entrega"
-			style="@style/rounded_edittext"/>
+			style="@style/rounded_edittext"
+			android:id="@+id/mandaditosmainEditText2"/>
 
 		<FrameLayout
 			android:layout_width="match_parent"
