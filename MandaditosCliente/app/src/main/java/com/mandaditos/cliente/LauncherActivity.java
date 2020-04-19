@@ -4,6 +4,7 @@ import android.content.*;
 import android.os.*;
 import android.support.v7.app.*;
 import android.widget.*;
+import com.google.android.gms.maps.model.*;
 
 public class LauncherActivity extends AppCompatActivity implements addressPickerFr.addressPickerListener,
 mandaditosMainFr.mandaditosMainFrListener
@@ -17,15 +18,18 @@ mandaditosMainFr.mandaditosMainFrListener
 
 
 	@Override
-	public void sentAddress(CharSequence input,Boolean isPartidaaa)
+	public void sentAddress(CharSequence input,Boolean isPartidaaa, LatLng mLatLng)
 	{
 		if(isPartidaaa==true){
 		mandaditos.setPartidaAddress(input);
 		addresspicker.setFieldText("");
+		mandaditos.setMarker_partida(mLatLng);
+		addresspicker.clearMarkers();
 		}
 		if(isPartidaaa==false){
 			mandaditos.setDestinoAddress(input);
 			addresspicker.setFieldText("");
+			addresspicker.clearMarkers();
 		}
 	}
 	

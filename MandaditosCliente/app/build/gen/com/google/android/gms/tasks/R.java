@@ -3468,6 +3468,8 @@ containing a value of this type.
         public static final int design_menu_item_text=0x7f0b00a8;
         public static final int design_navigation_view=0x7f0b00a7;
         public static final int disableHome=0x7f0b004e;
+        public static final int ed1=0x7f0b00b1;
+        public static final int ed2=0x7f0b00b2;
         public static final int edit_query=0x7f0b0088;
         public static final int end=0x7f0b0033;
         public static final int end_padder=0x7f0b00c5;
@@ -3507,8 +3509,6 @@ containing a value of this type.
         public static final int link_signup=0x7f0b00af;
         public static final int listMode=0x7f0b004c;
         public static final int list_item=0x7f0b006b;
-        public static final int mandaditosmainEditText1=0x7f0b00b1;
-        public static final int mandaditosmainEditText2=0x7f0b00b2;
         public static final int map_view=0x7f0b00b0;
         public static final int map_view_picker=0x7f0b009b;
         public static final int masked=0x7f0b00cb;

@@ -21,8 +21,7 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
     private GoogleMap gmap;
-	private EditText edPartida,edDestino;
-	private LatLng mLatLng_A;
+	private TextView edPartida,edDestino;
 	public static String tag ="mandaditosmain";
 	private mandaditosMainFrListener listener;
 	
@@ -74,10 +73,6 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 			gmap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));       
 		}
 		
-		if(mLatLng_A != null) {
-			gmap.addMarker(new MarkerOptions().position(mLatLng_A));
-
-				}
 	}
 
 	
@@ -144,8 +139,8 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 		mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
 	}
 	
-	edPartida = v.findViewById(R.id.mandaditosmainEditText1);
-	edDestino = v.findViewById(R.id.mandaditosmainEditText2);
+	edPartida = v.findViewById(R.id.ed1);
+	edDestino = v.findViewById(R.id.ed2);
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
@@ -203,15 +198,48 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+//Voids
 	public void setPartidaAddress(CharSequence newText) {
 			edPartida.setText(newText);
 		}
 	public void setDestinoAddress(CharSequence newText){
 		edDestino.setText(newText);
 	}
+	public void setMarker_partida(LatLng mlat){
+		gmap.addMarker(new MarkerOptions().position(mlat)
+		.snippet("partida"));
+	}
+	public void setMarker_destino(LatLng mlat){
+		MarkerOptions destMarker = new MarkerOptions().position(mlat)
+		.snippet("destino");
+		gmap.addMarker(destMarker);
+	}
+	
 
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 @Override
 public void onSaveInstanceState(Bundle outState)
