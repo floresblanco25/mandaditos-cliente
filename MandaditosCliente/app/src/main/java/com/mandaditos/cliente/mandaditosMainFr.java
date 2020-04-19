@@ -1,16 +1,16 @@
 package com.mandaditos.cliente;
 import android.app.*;
+import android.content.*;
 import android.location.*;
 import android.os.*;
 import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
-import java.io.*;
-import java.util.*;
+
 import com.mandaditos.cliente.R;
-import android.widget.*;
-import android.view.View.*;
 
 
 
@@ -22,9 +22,25 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	private MapView mapView;
     private GoogleMap gmap;
 	private EditText edPartida,edDestino;
-	private String address_A;
 	private LatLng mLatLng_A;
-	private Fragment fragmentToOpen;
+	public static String tag ="mandaditosmain";
+	private mandaditosMainFrListener listener;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	//interface
+	public interface mandaditosMainFrListener {
+		void setIsPartida(Boolean isPartidaaa);
+    }
+	
+	
 	
 	
 	
@@ -76,13 +92,9 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	
 	
 //Constructor
-	public static mandaditosMainFr newInstance(String address, LatLng mLatLng_A)
+	public static mandaditosMainFr newInstance()
 	{
 		mandaditosMainFr fragnent = new mandaditosMainFr();
-		Bundle args = new Bundle();
-		args.putString("address", address);
-		args.putParcelable("latlngA", mLatLng_A);
-		fragnent.setArguments(args);
 		return fragnent;
 	}
 	private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -105,8 +117,6 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 {
-address_A = getArguments().getString("address");
-mLatLng_A = getArguments().getParcelable("latlngA");
 super.onCreate(savedInstanceState);
 	
 }
@@ -149,8 +159,6 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 	
 	
-//get address from addresspicker
-	edPartida.setText(address_A);
 	
 	
 	
@@ -163,56 +171,30 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			@Override
 			public void onClick(View p1)
 			{
-				if (savedInstanceState != null)
-				{
-					fragmentToOpen = getFragmentManager().getFragment(savedInstanceState, "current");
-				}
-				else
-				{
+				
+				listener.setIsPartida(true);
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
-
-					fragmentToOpen = addressPickerFr.newInstance();
-
-
-					try
-					{
-						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "current");
-						transaction.commit();	}
-					catch (Exception e)
-					{
-						e.printStackTrace();	}
-				}
-				
-			}
+						transaction.show(getFragmentManager().findFragmentByTag(addressPickerFr.tag))
+						.hide(getFragmentManager().findFragmentByTag(tag))
+						.commit();	
+						}
 		});
+		
+		
 	edDestino.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View p1)
-			{
-				if (savedInstanceState != null)
 				{
-					fragmentToOpen = getFragmentManager().getFragment(savedInstanceState, "current");
-				}
-				else
-				{
-					FragmentManager manager = getFragmentManager();
-					final FragmentTransaction transaction= manager.beginTransaction();
-
-					fragmentToOpen = addressPickerFr.newInstance();
-
-
-					try
-					{
-						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "current");
-						transaction.commit();	}
-					catch (Exception e)
-					{
-						e.printStackTrace();	}
-				}
+					listener.setIsPartida(false);
+				FragmentManager manager = getFragmentManager();
+				final FragmentTransaction transaction= manager.beginTransaction();
+				transaction.show(getFragmentManager().findFragmentByTag(addressPickerFr.tag))
+					.hide(getFragmentManager().findFragmentByTag(tag))
+					.commit();	
+							}
 				
-			}
 		});
 
 	
@@ -221,6 +203,12 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 }
 
+	public void setPartidaAddress(CharSequence newText) {
+			edPartida.setText(newText);
+		}
+	public void setDestinoAddress(CharSequence newText){
+		edDestino.setText(newText);
+	}
 
 
 
@@ -280,7 +268,23 @@ public void onLowMemory()
 	mapView.onLowMemory();
 }
 	
+	@Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
+	@Override
+	public void onAttach(Context context)
+	{
+		super.onAttach(context);
+        if (context instanceof mandaditosMainFrListener) {
+            listener = (mandaditosMainFrListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+									   + " must implement FragmentAListener");
+        }
+	}
 
 
 

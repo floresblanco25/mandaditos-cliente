@@ -12,16 +12,31 @@ import java.util.*;
 import com.mandaditos.cliente.R;
 import android.widget.*;
 import android.view.View.*;
+import com.mandaditos.cliente.data.*;
+import android.content.*;
 public class addressPickerFr extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
     private GoogleMap gmap;
 	private Button okbtn;
-	private String address;
 	private EditText edAddress;
 	private MarkerOptions marker;
 	private LatLng mLatLng;
-
+	public static String tag ="addresspicker";
+	private Boolean isPartidaa;
+	
+	
+	
+	
+	
+	
+	
+	
+	private addressPickerListener listener;
+	//interface
+	public interface addressPickerListener {
+        void sentAddress(CharSequence input,Boolean isPartidaaa);
+    }
 
 
 
@@ -86,8 +101,6 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	public static addressPickerFr newInstance()
 	{
         addressPickerFr fragment = new addressPickerFr();
-		Bundle args = new Bundle();
-		fragment.setArguments(args);
         return fragment;
     }
 
@@ -151,23 +164,19 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 
 				private mandaditosMainFr fragmentToOpen;
 
+				
+
 				@Override
 				public void onClick(View p1)
 				{
+					CharSequence input = edAddress.getText();
+					listener.sentAddress(input,isPartidaa);
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
-					address = edAddress.getText().toString();
-					fragmentToOpen = mandaditosMainFr.newInstance(address,mLatLng);
-
-
-					try
-					{
-						transaction.replace(R.id.launcherFrameLayout, fragmentToOpen, "addresspicker");
-						transaction.commit();	}
-					catch (Exception e)
-					{
-						e.printStackTrace();	}
-				}
+					transaction.show(getFragmentManager().findFragmentByTag(mandaditosMainFr.tag))
+						.hide(getFragmentManager().findFragmentByTag(tag))
+						.commit();	
+						}
 			});
 
 
@@ -217,7 +226,14 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	
 	
 	
-	
+	//voids
+	public void setIsPartida(Boolean answer){
+		isPartidaa = answer;
+	}
+	public void setFieldText(CharSequence text){
+		edAddress.setText(text);
+	}
+
 	
 	
 	
@@ -264,6 +280,24 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 		mapView.onLowMemory();
 	}
 
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+	@Override
+	public void onAttach(Context context)
+	{
+		super.onAttach(context);
+        if (context instanceof addressPickerListener) {
+            listener = (addressPickerListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+									   + " must implement FragmentAListener");
+        }
+	}
 
 
 
