@@ -21,7 +21,6 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	private Button okbtn;
 	private EditText edAddress;
 	private MarkerOptions marker;
-	private LatLng mLatLng;
 	public static String tag ="addresspicker";
 	private Boolean isPartidaa;
 	
@@ -35,7 +34,7 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 	private addressPickerListener listener;
 	//interface
 	public interface addressPickerListener {
-        void sentAddress(CharSequence input,Boolean isPartidaaa, LatLng mLatLng);
+        void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt);
     }
 
 
@@ -77,7 +76,6 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 				public void onMapClick(LatLng point) {
 					gmap.clear();
 					marker = new MarkerOptions().position(point);
-					mLatLng = marker.getPosition();
 					gmap.addMarker(marker);
 				}
 			});
@@ -170,7 +168,7 @@ public class addressPickerFr extends Fragment implements OnMapReadyCallback
 				public void onClick(View p1)
 				{
 					CharSequence input = edAddress.getText();
-					listener.sentAddress(input,isPartidaa,mLatLng);
+					listener.sentAddress(input,isPartidaa,marker);
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
 					transaction.show(getFragmentManager().findFragmentByTag(mandaditosMainFr.tag))

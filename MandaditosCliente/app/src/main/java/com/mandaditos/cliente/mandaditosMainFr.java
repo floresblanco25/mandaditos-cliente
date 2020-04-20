@@ -9,8 +9,10 @@ import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
+import java.util.*;
 
 import com.mandaditos.cliente.R;
+import android.graphics.*;
 
 
 
@@ -21,9 +23,10 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
     private GoogleMap gmap;
-	private TextView edPartida,edDestino;
+	private TextView edPartida,edDestino,distanceTxt;
 	public static String tag ="mandaditosmain";
 	private mandaditosMainFrListener listener;
+	private MarkerOptions m1,m2;
 	
 	
 	
@@ -141,6 +144,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 	edPartida = v.findViewById(R.id.ed1);
 	edDestino = v.findViewById(R.id.ed2);
+	distanceTxt = v.findViewById(R.id.mandaditos_distance);
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
@@ -217,14 +221,39 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	public void setDestinoAddress(CharSequence newText){
 		edDestino.setText(newText);
 	}
-	public void setMarker_partida(LatLng mlat){
-		gmap.addMarker(new MarkerOptions().position(mlat)
-		.snippet("partida"));
+	public void setMarker_partida(MarkerOptions markerOpt){
+		m1=markerOpt;
+		gmap.addMarker(m1);
 	}
-	public void setMarker_destino(LatLng mlat){
-		MarkerOptions destMarker = new MarkerOptions().position(mlat)
-		.snippet("destino");
-		gmap.addMarker(destMarker);
+	public void setMarker_destino(MarkerOptions markerOpt){
+		m2=markerOpt;
+		gmap.addMarker(m2);
+	}
+	public void setDistance(){
+			LatLng distance1=  m1.getPosition();
+			LatLng distance2 = m2.getPosition();
+			
+			Location location1 = new Location("Partida");
+			location1.setLatitude(distance1.latitude);
+			location1.setLongitude(distance1.longitude);
+			
+			Location location2 = new Location("Destino");
+			location2.setLatitude(distance2.latitude);
+			location2.setLongitude(distance2.longitude);
+			
+			float distance =location1.distanceTo(location2);
+		String kmDistance = String.format("%.2f", (distance/1000)*1.14);
+		// Add a thin red line from London to New York.
+		PolylineOptions line = new PolylineOptions()
+										.add(distance1, distance2)
+										.width(5)
+										.color(Color.RED);
+										
+										
+										
+		gmap.addPolyline(line);
+		distanceTxt.setText(String.valueOf(kmDistance)+" km");
+		
 	}
 	
 

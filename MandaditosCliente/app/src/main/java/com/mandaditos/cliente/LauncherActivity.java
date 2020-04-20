@@ -18,18 +18,22 @@ mandaditosMainFr.mandaditosMainFrListener
 
 
 	@Override
-	public void sentAddress(CharSequence input,Boolean isPartidaaa, LatLng mLatLng)
+	public void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt)
 	{
 		if(isPartidaaa==true){
+			m1=markerOpt;
 		mandaditos.setPartidaAddress(input);
 		addresspicker.setFieldText("");
-		mandaditos.setMarker_partida(mLatLng);
+		mandaditos.setMarker_partida(m1);
 		addresspicker.clearMarkers();
 		}
 		if(isPartidaaa==false){
+			m2=markerOpt;
 			mandaditos.setDestinoAddress(input);
 			addresspicker.setFieldText("");
+			mandaditos.setMarker_destino(m2);
 			addresspicker.clearMarkers();
+			mandaditos.setDistance();
 		}
 	}
 	
@@ -40,6 +44,7 @@ mandaditosMainFr.mandaditosMainFrListener
 	mandaditosMainFr mandaditos;
     FrameLayout container;
 	private addressPickerFr addresspicker;
+	MarkerOptions m1,m2;
 	
 
 	
