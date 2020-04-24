@@ -1,6 +1,195 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<ScrollView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:fillViewport="true">
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<include
+				layout="@layout/toolbar"/>
+
+			<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="INDICACIONES DEL ENVÍO"
+					style="@style/info"
+					android:padding="8dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Punto de Partida o recogida"
+					style="@style/info"
+					android:padding="8dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Avenida san martin, apto 4-2 bis, santa tecla"
+					android:padding="8dp"
+					android:id="@+id/checkoutAddressA"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Punto de destino"
+					style="@style/info"
+					android:padding="8dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Residencial las amapolas, 23, san salvador"
+					android:padding="8dp"
+					android:id="@+id/checkoutAddressB"/>
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="Distancia total"
+					style="@style/info"
+					android:padding="8dp"/>
+				
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text=""
+					android:padding="8dp"
+					android:id="@+id/totalDistance"/>
+
+				<View
+					android:background="?android:attr/dividerVertical"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginBottom="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="FECHA Y HORA DE ENTREGA (APROXIMADA)"
+					android:padding="8dp"/>
+
+				<LinearLayout
+					android:orientation="horizontal"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Fecha"
+						android:padding="8dp"
+						android:id="@+id/checkoutDate"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Hora"
+						android:padding="8dp"
+						android:id="@+id/checkoutHour"/>
+
+				</LinearLayout>
+
+				<View
+					android:background="?android:attr/dividerVertical"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginBottom="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="¿DÓNDE RECOGEREMOS EL EFECTIVO?"
+					android:padding="8dp"/>
+
+				<RadioGroup
+					android:orientation="vertical"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:id="@+id/checkoutRadioGroupMoney">
+
+					<RadioButton
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Lugar de partida"
+						android:padding="8dp"
+						/>
+
+					<RadioButton
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Lugar de destino"
+						android:padding="8dp"
+						/>
+
+				</RadioGroup>
+
+				<View
+					android:background="?android:attr/dividerVertical"
+					android:layout_width="match_parent"
+					android:layout_height="1dp"
+					android:layout_marginBottom="16dp"/>
+
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="DETALLES DE FACTURACIÓN"
+					style="@style/info"
+					android:padding="8dp"/>
+
+				<FrameLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="Costo de envío"
+						android:layout_gravity="left"
+						android:padding="8dp"/>
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="$0.00"
+						android:layout_gravity="right|center_vertical"
+						style="@style/title"
+						android:id="@+id/checkoutTotal"/>
+
+				</FrameLayout>
+
+			</LinearLayout>
+
+		</LinearLayout>
+
+	</ScrollView>
+
+	<Button
+		android:layout_margin="8dp"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Procesar Orden"
+		android:background="@drawable/rounded_button_sharp"
+		android:padding="8dp"
+		android:id="@+id/checkoutButtonProcess"
+		android:textColor="#FFFFFF"
+		android:layout_gravity="bottom|center_horizontal"/>
+
 </LinearLayout>
+

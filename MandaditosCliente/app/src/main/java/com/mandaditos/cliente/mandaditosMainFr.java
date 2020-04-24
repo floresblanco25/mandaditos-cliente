@@ -27,6 +27,7 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	public static String tag ="mandaditosmain";
 	private mandaditosMainFrListener listener;
 	private MarkerOptions m1,m2;
+	private Button checkoutBttn;
 	
 	
 	
@@ -40,6 +41,7 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	//interface
 	public interface mandaditosMainFrListener {
 		void setIsPartida(Boolean isPartidaaa);
+		void onDistanceKm(double km);
     }
 	
 	
@@ -148,6 +150,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
+	checkoutBttn=v.findViewById(R.id.mandaditosmainCheckoutButton);
 	
 	
 	
@@ -194,6 +197,18 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 					.commit();	
 							}
 				
+		});
+	checkoutBttn.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View p1)
+			{
+				FragmentManager manager = getFragmentManager();
+				final FragmentTransaction transaction= manager.beginTransaction();
+				transaction.show(getFragmentManager().findFragmentByTag(checkout.tag))
+					.hide(getFragmentManager().findFragmentByTag(tag))
+					.commit();	
+			}
 		});
 
 	
@@ -242,7 +257,8 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			location2.setLongitude(distance2.longitude);
 			
 			float distance =location1.distanceTo(location2);
-		String kmDistance = String.format("%.2f", (distance/1000)*1.14);
+		String kmDistance = String.format("%.2f", (distance/1000)*1.16);
+		double distanceDouble = (location1.distanceTo(location2) / 1000) * 1.14;
 		// Add a thin red line from London to New York.
 		PolylineOptions line = new PolylineOptions()
 										.add(distance1, distance2)
@@ -253,6 +269,9 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 										
 		gmap.addPolyline(line);
 		distanceTxt.setText(String.valueOf(kmDistance)+" km");
+		listener.onDistanceKm(distanceDouble);
+		
+		
 		
 	}
 	

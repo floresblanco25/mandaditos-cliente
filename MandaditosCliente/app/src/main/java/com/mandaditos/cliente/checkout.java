@@ -2,28 +2,39 @@ package com.mandaditos.cliente;
 
 
 import android.app.*;
-import android.location.*;
+import android.content.*;
 import android.os.*;
 import android.view.*;
-import com.google.android.gms.maps.*;
+import android.widget.*;
+import android.widget.RadioGroup.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
-import java.io.*;
+import java.text.*;
 import java.util.*;
-import com.mandaditos.cliente.R;
-import android.widget.*;
-import android.view.View.*;
-import com.mandaditos.cliente.data.*;
-import android.content.*;
+import android.util.*;
 public class checkout extends Fragment 
 {
+	public static String tag ="checkout";
 
 
 
 	private checkoutListener listener;
+	private TextView addressA,addressB,mDate,hour,total,distTotal;
+	private RadioGroup money;
+	private String where="Partida";
+
+	private int tiempoDetardanza=0;
+
+	
+
+
+
+
+
 	//interface
-	public interface checkoutListener {
-        void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt);
+	public interface checkoutListener
+	{
+        void sentAddress(CharSequence input, Boolean isPartidaaa, MarkerOptions markerOpt);
     }
 
 
@@ -75,7 +86,64 @@ public class checkout extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View v = inflater.inflate(R.layout.checkout, container, false);
+		addressA = v.findViewById(R.id.checkoutAddressA);
+		addressB = v.findViewById(R.id.checkoutAddressB);
+		mDate = v.findViewById(R.id.checkoutDate);
+		hour = v.findViewById(R.id.checkoutHour);
+		total = v.findViewById(R.id.checkoutTotal);
+		money = v.findViewById(R.id.checkoutRadioGroupMoney);
+		distTotal = v.findViewById(R.id.totalDistance);
 
+
+
+
+
+
+
+
+
+		//set text
+		String date = new SimpleDateFormat("EEE dd-MMM", Locale.getDefault()).format(new Date());
+		mDate.setText(date);
+//		String currentTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MINUTE, tiempoDetardanza);
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
+		hour.setText(df.format(cal.getTime()));
+
+
+
+
+
+
+
+
+
+
+
+
+		//radiobuttons
+		money.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(RadioGroup p1, int p2)
+				{
+					int selectedId = money.getCheckedRadioButtonId();
+
+					// find the radiobutton by returned id
+					RadioButton whereButton = p1.findViewById(selectedId);
+					if (whereButton.getText().toString().toLowerCase().contains("partida"))
+					{
+						where = "partida";
+					}
+
+					if (whereButton.getText().toString().toLowerCase().contains("destino"))
+					{
+						where = "destino";
+					}
+				}
+
+			});
 
 
 
@@ -121,17 +189,46 @@ public class checkout extends Fragment
 
 
 	//voids
+	public void setAddressA(CharSequence t)
+	{
+		addressA.setText(t);
+	}
+	public void setAddressB(CharSequence t)
+	{
+		addressB.setText(t);
+	}
+
+	public void setHour(CharSequence t)
+	{
+		hour.setText(t);
+	}
+	public void setTotalCost(CharSequence t)
+	{
+		total.setText(t);
+	}
+	public String getWhereGetMoney()
+	{
+		return where;
+	}
+	
+	public void setTotalKm(String km)
+	{
+		distTotal.setText(km);
+	}
+	
+
+
+
+
+
 
 
 
 
 	//cycles
-
-	
-	
-	
     @Override
-    public void onDetach() {
+    public void onDetach()
+	{
         super.onDetach();
         listener = null;
     }
@@ -140,9 +237,12 @@ public class checkout extends Fragment
 	public void onAttach(Context context)
 	{
 		super.onAttach(context);
-        if (context instanceof checkoutListener) {
+        if (context instanceof checkoutListener)
+		{
             listener = (checkoutListener) context;
-        } else {
+        }
+		else
+		{
             throw new RuntimeException(context.toString()
 									   + " must implement checkoutlistener");
         }
