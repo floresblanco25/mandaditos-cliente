@@ -19,11 +19,10 @@ public class checkout extends Fragment
 
 
 	private checkoutListener listener;
-	private TextView addressA,addressB,mDate,hour,total,distTotal;
+	private TextView addressA,addressB,mDate,mEtaText,total,distTotal;
 	private RadioGroup money;
 	private String where="Partida";
 
-	private int tiempoDetardanza=0;
 
 	
 
@@ -89,7 +88,7 @@ public class checkout extends Fragment
 		addressA = v.findViewById(R.id.checkoutAddressA);
 		addressB = v.findViewById(R.id.checkoutAddressB);
 		mDate = v.findViewById(R.id.checkoutDate);
-		hour = v.findViewById(R.id.checkoutHour);
+		mEtaText = v.findViewById(R.id.checkoutHour);
 		total = v.findViewById(R.id.checkoutTotal);
 		money = v.findViewById(R.id.checkoutRadioGroupMoney);
 		distTotal = v.findViewById(R.id.totalDistance);
@@ -105,11 +104,7 @@ public class checkout extends Fragment
 		//set text
 		String date = new SimpleDateFormat("EEE dd-MMM", Locale.getDefault()).format(new Date());
 		mDate.setText(date);
-//		String currentTime = new SimpleDateFormat("hh:mm aa", Locale.getDefault()).format(new Date());
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MINUTE, tiempoDetardanza);
-		SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
-		hour.setText(df.format(cal.getTime()));
+		
 
 
 
@@ -198,10 +193,6 @@ public class checkout extends Fragment
 		addressB.setText(t);
 	}
 
-	public void setHour(CharSequence t)
-	{
-		hour.setText(t);
-	}
 	public void setTotalCost(CharSequence t)
 	{
 		total.setText(t);
@@ -214,6 +205,9 @@ public class checkout extends Fragment
 	public void setTotalKm(String km)
 	{
 		distTotal.setText(km);
+	}
+	public void setETAText(CharSequence t){
+		mEtaText.setText(t);
 	}
 	
 

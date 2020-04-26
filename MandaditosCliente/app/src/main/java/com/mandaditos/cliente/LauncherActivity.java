@@ -12,6 +12,15 @@ public class LauncherActivity extends AppCompatActivity implements addressPicker
 mandaditosMainFr.mandaditosMainFrListener,checkout.checkoutListener
 {
 
+	@Override
+	public void sentETA(CharSequence eta)
+	{
+		checkoutFr.setETAText(eta);
+		// TODO: Implement this method
+	}
+	
+
+
 	private String kmCostFormat;
 
 	

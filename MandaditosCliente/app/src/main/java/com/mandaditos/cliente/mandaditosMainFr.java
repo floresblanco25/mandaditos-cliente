@@ -1,6 +1,7 @@
 package com.mandaditos.cliente;
 import android.app.*;
 import android.content.*;
+import android.graphics.*;
 import android.location.*;
 import android.os.*;
 import android.view.*;
@@ -9,10 +10,10 @@ import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
+import java.text.*;
 import java.util.*;
 
 import com.mandaditos.cliente.R;
-import android.graphics.*;
 
 
 
@@ -42,6 +43,7 @@ public class mandaditosMainFr extends Fragment implements OnMapReadyCallback
 	public interface mandaditosMainFrListener {
 		void setIsPartida(Boolean isPartidaaa);
 		void onDistanceKm(double km);
+		void sentETA(CharSequence eta);
     }
 	
 	
@@ -257,8 +259,8 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			location2.setLongitude(distance2.longitude);
 			
 			float distance =location1.distanceTo(location2);
-		String kmDistance = String.format("%.2f", (distance/1000)*1.16);
-		double distanceDouble = (location1.distanceTo(location2) / 1000) * 1.14;
+		String kmDistance = String.format("%.2f", (distance/1000)*1.20);
+		Double distanceDouble = (location1.distanceTo(location2) / 1000) * 1.14;
 		// Add a thin red line from London to New York.
 		PolylineOptions line = new PolylineOptions()
 										.add(distance1, distance2)
@@ -266,10 +268,17 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 										.color(Color.RED);
 										
 										
-										
+		Double minPerKm = distanceDouble*1.4;					
 		gmap.addPolyline(line);
 		distanceTxt.setText(String.valueOf(kmDistance)+" km");
 		listener.onDistanceKm(distanceDouble);
+		Calendar cal = Calendar.getInstance();
+		int tiempoDeRecogida = 8;
+		int tiempoDeEnvio = Integer.valueOf(minPerKm.intValue());
+		cal.add(Calendar.MINUTE, tiempoDeEnvio+tiempoDeRecogida);
+		SimpleDateFormat df = new SimpleDateFormat("hh:mm aa");
+		String mEta = df.format(cal.getTime());
+		listener.sentETA(mEta + " ("+ Integer.valueOf(minPerKm.intValue()+tiempoDeRecogida)+ " min.)");
 		
 		
 		
