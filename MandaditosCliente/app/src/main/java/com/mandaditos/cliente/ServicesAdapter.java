@@ -3,10 +3,10 @@ package com.mandaditos.cliente;
 import android.content.*;
 import android.support.v7.widget.*;
 import android.view.*;
-import android.widget.*;
-import com.mandaditos.cliente.*;
-import java.util.*;
 import android.view.View.*;
+import android.widget.*;
+import com.mandaditos.cliente.Mandaditos.*;
+import java.util.*;
 
 public class ServicesAdapter extends RecyclerView.Adapter<serviceViewHolder>
  {
@@ -57,7 +57,7 @@ class serviceViewHolder extends RecyclerView.ViewHolder {
 @Override
 public void onClick(View p1)
 {
-	final Intent i = new Intent(p1.getContext(), LauncherActivity.class);
+	final Intent i = new Intent(p1.getContext(), MandaditosActivity.class);
 	p1.getContext().startActivity(i);
 }
 });

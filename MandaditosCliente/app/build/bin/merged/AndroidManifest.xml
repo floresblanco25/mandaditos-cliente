@@ -47,7 +47,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.mandaditos.cliente.LauncherActivity"
+            android:name="com.mandaditos.cliente.Mandaditos.MandaditosActivity"
             android:label="@string/app_name" >
         </activity>
 
