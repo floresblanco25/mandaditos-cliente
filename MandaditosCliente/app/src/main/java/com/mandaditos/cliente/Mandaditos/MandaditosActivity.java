@@ -75,6 +75,9 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 			addresspicker.clearMarkers();
 			mandaditos.setDistance();
 			checkoutFr.setAddressB(address);
+
+
+//Edited by Mario 
 		}
 		
 	}
