@@ -7,7 +7,6 @@ import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-import butterknife.*;
 import com.mandaditos.cliente.*;
 
 public class SignupActivity extends AppCompatActivity
@@ -24,7 +23,6 @@ public class SignupActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        ButterKnife.inject(this);
 
 		
 		_nameText = findViewById(R.id.input_name);

@@ -7,7 +7,6 @@ import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-import butterknife.*;
 import com.mandaditos.cliente.*;
 
 public class LoginActivity extends AppCompatActivity
@@ -29,7 +28,6 @@ public class LoginActivity extends AppCompatActivity
 		_signupLink = findViewById(R.id.link_signup);
 		_passwordText = findViewById(R.id.input_password);
 		_emailText = findViewById(R.id.input_email);
-        ButterKnife.inject(this);
 
 		Intent intent = new Intent(getApplicationContext(), Home.class);
 		startActivityForResult(intent, RESULT_OK);
