@@ -34,6 +34,7 @@ public class MandaditosCkeckout extends Fragment
 	public interface Listener
 	{
         void sentAddress(CharSequence input, Boolean isPartidaaa, MarkerOptions markerOpt);
+		void onGatherAllData();
     }
 
 

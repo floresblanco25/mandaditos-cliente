@@ -12,10 +12,16 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 {
 
 	@Override
+	public void onGatherAllData()
+	{
+		// TODO: send data to fb
+	}
+
+
+	@Override
 	public void sentETA(CharSequence eta)
 	{
 		checkoutFr.setETAText(eta);
-		// TODO: Implement this method
 	}
 	
 
