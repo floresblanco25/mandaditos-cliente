@@ -3,98 +3,107 @@ package com.mandaditos.cliente;
 import android.app.*;
 import android.content.*;
 import android.os.*;
+import android.support.annotation.*;
 import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
 import android.widget.*;
-import com.mandaditos.cliente.*;
+import com.google.firebase.auth.*;
+import com.google.android.gms.tasks.*;
 
 public class LoginActivity extends AppCompatActivity
 {
 	private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-
-    EditText _emailText;
-	EditText _passwordText;
-	Button _loginButton;
-	TextView _signupLink;
+	FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+	
+    EditText emailText;
+	EditText passwordText;
+	Button loginButton;
+	TextView signupLink;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-		_loginButton = findViewById(R.id.btn_login);
-		_signupLink = findViewById(R.id.link_signup);
-		_passwordText = findViewById(R.id.input_password);
-		_emailText = findViewById(R.id.input_email);
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		
+		loginButton = findViewById(R.id.btn_login);
+		signupLink = findViewById(R.id.link_signup);
+		passwordText = findViewById(R.id.input_password);
+		emailText = findViewById(R.id.input_email);
 
-		Intent intent = new Intent(getApplicationContext(), Home.class);
-		startActivityForResult(intent, RESULT_OK);
-        _loginButton.setOnClickListener(new View.OnClickListener() {
+		
+		
+		
+		mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+                if( mFirebaseUser != null ){
+                    Toast.makeText(LoginActivity.this,"You are logged in",Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(LoginActivity.this, Home.class);
+                    startActivity(i);
+                }
+                else{
+                    Toast.makeText(LoginActivity.this,"Please Login",Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+		
+		
+        loginButton.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					login();
-				}
+					
+						String email = emailText.getText().toString();
+						String pwd = passwordText.getText().toString();
+						if(email.isEmpty()){
+							emailText.setError("Please enter email id");
+							emailText.requestFocus();
+						}
+						else  if(pwd.isEmpty()){
+							passwordText.setError("Please enter your password");
+							passwordText.requestFocus();
+						}
+						else  if(email.isEmpty() && pwd.isEmpty()){
+							Toast.makeText(LoginActivity.this,"Fields Are Empty!",Toast.LENGTH_SHORT).show();
+						}
+						else  if(!(email.isEmpty() && pwd.isEmpty())){
+							mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+									@Override
+									public void onComplete(@NonNull Task<AuthResult> task) {
+										if(!task.isSuccessful()){
+											Toast.makeText(LoginActivity.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
+										}
+										else{
+											Intent intToHome = new Intent(LoginActivity.this,Home.class);
+											startActivity(intToHome);
+										}
+									}
+								});
+						}
+						else{
+							Toast.makeText(LoginActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+
+						}
+
+					}
 			});
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
+        signupLink.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					// Start the Signup activity
 					Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
 					startActivityForResult(intent, REQUEST_SIGNUP);
 				}
 			});
     }
 
-    public void login() {
-        Log.d(TAG, "Login");
-
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
-
-        _loginButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-																 R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Autenticando...");
-        progressDialog.show();
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own authentication logic here.
-
-        new android.os.Handler().postDelayed(
-			new Runnable() {
-				public void run() {
-					// On complete call either onLoginSuccess or onLoginFailed
-					onLoginSuccess();
-					// onLoginFailed();
-					progressDialog.dismiss();
-				}
-			}, 3000);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-				
-				
-            }
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -102,38 +111,13 @@ public class LoginActivity extends AppCompatActivity
         moveTaskToBack(true);
     }
 
-    public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-		Intent intent = new Intent(getApplicationContext(), Home.class);
-		startActivityForResult(intent, RESULT_OK);
-    }
+	@Override
+	protected void onStart()
+	{
+		super.onStart();
+		mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+	}
 
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "No se puede iniciar sesión", Toast.LENGTH_LONG).show();
-
-        _loginButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Ingrese un correo válido");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Ingrese una contraseña entre 4 a 10 caracteres");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-
-        return valid;
-    }
+	
+	
 }

@@ -1,128 +1,81 @@
 package com.mandaditos.cliente;
 
-import android.app.*;
-import android.content.res.*;
+import android.content.*;
 import android.os.*;
+import android.support.annotation.*;
 import android.support.v7.app.*;
-import android.util.*;
 import android.view.*;
 import android.widget.*;
-import com.mandaditos.cliente.*;
+import com.google.android.gms.tasks.*;
+import com.google.firebase.auth.*;
 
 public class SignupActivity extends AppCompatActivity
  {
     private static final String TAG = "SignupActivity";
 
-	EditText _nameText;
-	EditText _emailText;
-	EditText _passwordText;
-	Button _signupButton;
-	TextView _loginLink;
+	EditText nameEd;
+	EditText emailEd;
+	EditText passwordEd;
+	Button signupButt;
+	TextView loginLink;
+	FirebaseAuth mFirebaseAuth;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+		mFirebaseAuth = FirebaseAuth.getInstance();
 
 		
-		_nameText = findViewById(R.id.input_name);
-		_emailText = findViewById(R.id.input_email);
-		_passwordText = findViewById(R.id.input_password);
-		_signupButton = findViewById(R.id.btn_signup);
-		_loginLink = findViewById(R.id.link_login);
+		nameEd = findViewById(R.id.input_name);
+		emailEd = findViewById(R.id.input_email);
+		passwordEd = findViewById(R.id.input_password);
+		signupButt = findViewById(R.id.btn_signup);
+		loginLink = findViewById(R.id.link_login);
 		
-        _signupButton.setOnClickListener(new View.OnClickListener() {
+        signupButt.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					signup();
+					String email = emailEd.getText().toString();
+					String pwd = passwordEd.getText().toString();
+					if(email.isEmpty()){
+						emailEd.setError("Please enter email id");
+						emailEd.requestFocus();
+					}
+					else  if(pwd.isEmpty()){
+						passwordEd.setError("Please enter your password");
+						passwordEd.requestFocus();
+					}
+					else  if(email.isEmpty() && pwd.isEmpty()){
+						Toast.makeText(SignupActivity.this,"Fields Are Empty!",Toast.LENGTH_SHORT).show();
+					}
+					else  if(!(email.isEmpty() && pwd.isEmpty())){
+						mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
+								@Override
+								public void onComplete(@NonNull Task<AuthResult> task) {
+									if(!task.isSuccessful()){
+										Toast.makeText(SignupActivity.this,"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
+									}
+									else {
+										startActivity(new Intent(SignupActivity.this,Home.class));
+									}
+								}
+							});
+					}
+					else{
+						Toast.makeText(SignupActivity.this,"Error Occurred!",Toast.LENGTH_SHORT).show();
+
+					}
 				}
 			});
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
+        loginLink.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					// Finish the registration screen and return to the Login activity
 					finish();
 				}
 			});
     }
 
-    public void signup() {
-        Log.d(TAG, "Signup");
-
-        if (!validate()) {
-            onSignupFailed();
-            return;
-        }
-
-        _signupButton.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignupActivity.this,
-																 R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Registrando...");
-        progressDialog.show();
-
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        // TODO: Implement your own signup logic here.
-
-        new android.os.Handler().postDelayed(
-			new Runnable() {
-				public void run() {
-					// On complete call either onSignupSuccess or onSignupFailed 
-					// depending on success
-					onSignupSuccess();
-					// onSignupFailed();
-					progressDialog.dismiss();
-				}
-			}, 3000);
-    }
-
-
-    public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }
-
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "No se pudo crear la cuenta", Toast.LENGTH_LONG).show();
-
-        _signupButton.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("Escribe al menos 3 caracteres");
-            valid = false;
-        } else {
-            _nameText.setError(null);
-        }
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("Ingresa una dirección de correo válida");
-            valid = false;
-        } else {
-            _emailText.setError(null);
-        }
-
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("Escribe de 4 a 10 caracteres");
-            valid = false;
-        } else {
-            _passwordText.setError(null);
-        }
-
-        return valid;
-    }
 	}
 	
