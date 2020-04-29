@@ -6,16 +6,27 @@ import android.support.v7.app.*;
 import android.widget.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
+import android.util.*;
+import com.google.firebase.database.*;
+import com.mandaditos.cliente.R;
 
 public class MandaditosActivity extends AppCompatActivity implements MandaditosAddressPick.Listener,
 MandaditosMain.Listener,MandaditosCkeckout.Listener
 {
 
+	DatabaseReference rootRef,demoRef;    
+	
 	@Override
-	public void onGatherAllData()
+	public void onGatherAllData(String addressA, String addressB, String date, String eta, String totalMoney, String totalDist, String whereGetMoney)
 	{
-		// TODO: send data to fb
+		Log.wtf("onGather",addressA+addressB+date+eta+totalMoney+totalDist+whereGetMoney);
+		String value = addressA;                
+		demoRef.child("Nombre").setValue(value);
+		
+		
+		
 	}
+	
 
 
 	@Override
@@ -114,6 +125,9 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 		addresspicker = MandaditosAddressPick.newInstance();
 		checkoutFr = MandaditosCkeckout.newInstance();
 		
+		
+		rootRef = FirebaseDatabase.getInstance().getReference();  
+		demoRef = rootRef.child("Prueba");      
 		
 		
 		

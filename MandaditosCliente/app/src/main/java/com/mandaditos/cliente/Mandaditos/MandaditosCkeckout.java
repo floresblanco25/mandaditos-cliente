@@ -19,9 +19,10 @@ public class MandaditosCkeckout extends Fragment
 
 
 	private Listener listener;
-	private TextView addressA,addressB,mDate,mEtaText,total,distTotal;
+	private TextView addressA,addressB,mDate,mEtaText,totalCost,distTotal;
 	private RadioGroup money;
 	private String where="Partida";
+	private Button checkoutButton;
 
 
 	
@@ -34,7 +35,8 @@ public class MandaditosCkeckout extends Fragment
 	public interface Listener
 	{
         void sentAddress(CharSequence input, Boolean isPartidaaa, MarkerOptions markerOpt);
-		void onGatherAllData();
+		void onGatherAllData(String addressA,String addressB,String date, String eta, String totalMoney, 
+		String totalDist,String whereGetMoney);
     }
 
 
@@ -90,9 +92,10 @@ public class MandaditosCkeckout extends Fragment
 		addressB = v.findViewById(R.id.checkoutAddressB);
 		mDate = v.findViewById(R.id.checkoutDate);
 		mEtaText = v.findViewById(R.id.checkoutHour);
-		total = v.findViewById(R.id.checkoutTotal);
+		totalCost = v.findViewById(R.id.checkoutTotal);
 		money = v.findViewById(R.id.checkoutRadioGroupMoney);
 		distTotal = v.findViewById(R.id.totalDistance);
+		checkoutButton = v.findViewById(R.id.checkoutButtonProcess);
 
 
 
@@ -139,6 +142,29 @@ public class MandaditosCkeckout extends Fragment
 					}
 				}
 
+			});
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//Button checkout
+		checkoutButton.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1)
+				{
+					listener.onGatherAllData(addressA.getText().toString(),addressB.getText().toString(),
+											 mDate.getText().toString(),mEtaText.getText().toString(),
+											 totalCost.getText().toString(),distTotal.getText().toString(),
+											 where);
+				}
 			});
 
 
@@ -196,7 +222,7 @@ public class MandaditosCkeckout extends Fragment
 
 	public void setTotalCost(CharSequence t)
 	{
-		total.setText(t);
+		totalCost.setText(t);
 	}
 	public String getWhereGetMoney()
 	{
