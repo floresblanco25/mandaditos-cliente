@@ -1,14 +1,25 @@
 package com.mandaditos.cliente;
-import android.support.v7.app.*;
 import android.os.*;
-import com.google.firebase.database.*;
+import android.support.v7.app.*;
+import android.support.v7.widget.*;
 import android.widget.*;
+import com.google.firebase.auth.*;
+import com.google.firebase.database.*;
+import com.mandaditos.cliente.Mandaditos.*;
+import java.util.*;
+import com.mandaditos.cliente.mDashboard.*;
+import android.util.*;
 
 public class Dashboard extends AppCompatActivity
 {
-DatabaseReference mDataBase;
-TextView orderNumber, partida,destino,distancia,dateEta, 
-whereTogetMoney,totalCost;
+	DatabaseReference mDataBase;
+	TextView orderNumber, partida,destino,distancia,dateEta, 
+	whereTogetMoney,totalCost;
+	FirebaseAuth mFirebaseAuth;
+
+	private ArrayList<MandaditosModel> mList;
+	RecyclerView recyclerView;
+    mAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -22,46 +33,66 @@ whereTogetMoney,totalCost;
 		dateEta = findViewById(R.id.dashboardDateEta);
 		whereTogetMoney = findViewById(R.id.dashboardWhereGetMoney);
 		totalCost = findViewById(R.id.dashboardTotalCost);
-		
-		
-		
-		
-		
-		
-	mDataBase.child("Orden").addValueEventListener(new ValueEventListener(){
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		mList = new ArrayList<MandaditosModel>();
 
-	@Override
-	public void onDataChange(DataSnapshot p1)
-	{
-		if(p1.exists()){
-			String partidaTx = p1.child("Partida").getValue().toString();
-			String destinoTx = p1.child("Destino").getValue().toString();
-			String distanciaTx = p1.child("Distancia").getValue().toString();
-			String dateTx = p1.child("Fecha").getValue().toString();
-			String etaTx = p1.child("ETA").getValue().toString();
-			String whereGetMoneyTx = p1.child("Recoger dinero en").getValue().toString();
-			String costo = p1.child("Costo").getValue().toString();
-			
-			
-			
-			
-			partida.setText(partidaTx);
-			destino.setText(destinoTx);
-			distancia.setText(distanciaTx);
-			dateEta.setText(dateTx+" "+etaTx);
-			whereTogetMoney.setText(whereGetMoneyTx);
-			totalCost.setText(costo);
 
-		}
-		else{
-		}
+
+
+
+
+
+
+
+		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+		String email = mFirebaseUser.getEmail().toString();
+		int index = email.indexOf('@');
+		email = email.substring(0, index);
+		String userId = email.toLowerCase();
+		mDataBase.child("Usuarios/" + userId + "/Ordenes/Mandaditos").addValueEventListener(new ValueEventListener(){
+
+				@Override
+				public void onDataChange(DataSnapshot p1)
+				{
+					if (p1.exists())
+					{
+						for (DataSnapshot childDataSnapshot : p1.getChildren())
+						{
+							childDataSnapshot.getKey().toString();
+							MandaditosModel mObject = new MandaditosModel
+							(
+								childDataSnapshot.getKey().toString(),
+								childDataSnapshot.child(DbNames.partida).getValue().toString(),
+								childDataSnapshot.child(DbNames.destino).getValue().toString(),
+								childDataSnapshot.child(DbNames.distancia).getValue().toString(),
+								childDataSnapshot.child(DbNames.fecha).getValue().toString(),
+								childDataSnapshot.child(DbNames.eta).getValue().toString(),
+								childDataSnapshot.child(DbNames.wheregetmoney).getValue().toString(),
+								childDataSnapshot.child(DbNames.costo).getValue().toString());
+							mList.add(mObject);
+						}
+
+						//Recycler
+						recyclerView =  findViewById(R.id.dashboardRecycler);
+						adapter = new mAdapter(mList);
+						LinearLayoutManager mLayoutManager =new LinearLayoutManager(Dashboard.this);
+						recyclerView.setLayoutManager(mLayoutManager);
+						recyclerView.setItemAnimator(new DefaultItemAnimator());
+						recyclerView.setHasFixedSize(false);
+						recyclerView.setAdapter(adapter);
+
+					}
+					else
+					{
+						Log.wtf("falla de firebase", "no exixtse");
+					}
+				}
+
+				@Override
+				public void onCancelled(DatabaseError p1)
+				{
+				}
+			});
 	}
 
-	@Override
-	public void onCancelled(DatabaseError p1)
-	{
-	}
-	});
-	}
-	
 }

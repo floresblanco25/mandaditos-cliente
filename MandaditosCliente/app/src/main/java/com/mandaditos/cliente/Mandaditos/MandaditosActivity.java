@@ -5,11 +5,13 @@ import android.os.*;
 import android.support.v7.app.*;
 import android.widget.*;
 import com.google.android.gms.maps.model.*;
-import com.mandaditos.cliente.*;
-import android.util.*;
+import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
-import com.mandaditos.cliente.R;
+import com.mandaditos.cliente.*;
 import java.util.*;
+
+import com.mandaditos.cliente.R;
+import android.util.*;
 
 public class MandaditosActivity extends AppCompatActivity implements MandaditosAddressPick.Listener,
 MandaditosMain.Listener,MandaditosCkeckout.Listener
@@ -22,6 +24,7 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
     FrameLayout container;
 	private MandaditosAddressPick addresspicker;
 	MarkerOptions m1,m2;
+	FirebaseAuth mFirebaseAuth;
 	
 	
 	
@@ -30,7 +33,10 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	@Override
 	public void onGatherAllData(String addressA, String addressB, String date, String eta, String totalMoney, String totalDist, String whereGetMoney)
 	{
-//		Log.wtf("onGather",addressA+addressB+date+eta+totalMoney+totalDist+whereGetMoney);
+		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+		String email = mFirebaseUser.getEmail().toString();
+		int index = email.indexOf('@');
+		email = email.substring(0, index);
 		Map<String, Object> orderMap = new HashMap<>();
 		orderMap.put("Partida", addressA);
 		orderMap.put("Destino",addressB);
@@ -42,7 +48,8 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 		orderMap.put("Recoger dinero en",whereGetMoney);
 		orderMap.put("Marcador de partida", m1);
 		orderMap.put("Marcador de destino",m2);
-		mDataBase.child("Orden").setValue(orderMap);
+		mDataBase.child("Usuarios/"+email+"/Ordenes/Mandaditos").push().setValue(orderMap);
+		Log.wtf("User is",email);
 		
 		
 		
@@ -183,6 +190,8 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 		addresspicker = MandaditosAddressPick.newInstance();
 		checkoutFr = MandaditosCkeckout.newInstance();
 		mDataBase = FirebaseDatabase.getInstance().getReference();  
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		
 		
 		
 		

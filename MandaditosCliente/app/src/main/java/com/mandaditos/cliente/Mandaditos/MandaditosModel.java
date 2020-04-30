@@ -1,33 +1,60 @@
 package com.mandaditos.cliente.Mandaditos;
 import com.google.android.gms.maps.model.*;
 
+
 public class MandaditosModel
 {
-	private String address_partida;
-    private String address_destino;
-    private LatLng latlngPartida;
-	private LatLng latlng_destino;
+	private String partida;
+    private String destino;
+	private String distancia;
+    private String fecha;
+	private String eta;
+    private String wheretogetmoney;
+	private String costo;
+	private String orderName;
 
-    public MandaditosModel(String address_partida, String address_destino, LatLng latlng_partida, LatLng latlng_destino) {
-        this.address_partida = address_partida;
-        this.address_destino = address_destino;
-        this.latlngPartida = latlng_partida;
-		this.latlng_destino = latlng_destino;
+    public MandaditosModel( String orderName,
+		String partida, String destino, String distancia, String fecha
+		, String eta, String wheregetmoney, String costo) {
+        this.partida = partida;
+        this.destino = destino;
+		this.distancia = distancia;
+        this.fecha = fecha;
+		this.eta = eta;
+        this.wheretogetmoney = wheregetmoney;
+		this.costo = costo;
+		this.orderName=orderName;
     }
 
-    public String getAddressPartida() {
-        return address_partida;
+    public String getPartida() {
+        return partida;
     }
 
-    public String getAddressDestino() {
-        return address_destino;
+    public String getDestino() {
+        return destino;
+    }
+	public String getDistancia() {
+        return distancia;
     }
 
-    public LatLng getLatltnPartida() {
-        return latlngPartida;
+    public String getFecha() {
+        return fecha;
     }
-	
-	public LatLng getLatltnDestino() {
-        return latlng_destino;
+	public String getEta() {
+        return eta;
     }
+
+    public String getWheregetMoney() {
+        return wheretogetmoney;
+    }
+	public String getCost() {
+        return costo;
+    }
+	public String getOrderName(){
+		return orderName;
+	}
+
 }
+
+
+

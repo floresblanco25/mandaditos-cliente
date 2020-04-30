@@ -8,6 +8,9 @@ import android.view.*;
 import android.widget.*;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.*;
+import java.util.*;
+import android.util.*;
 
 public class SignupActivity extends AppCompatActivity
  {
@@ -19,12 +22,14 @@ public class SignupActivity extends AppCompatActivity
 	Button signupButt;
 	TextView loginLink;
 	FirebaseAuth mFirebaseAuth;
+	DatabaseReference mDataBase;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 		mFirebaseAuth = FirebaseAuth.getInstance();
+		mDataBase = FirebaseDatabase.getInstance().getReference();
 
 		
 		nameEd = findViewById(R.id.input_name);
@@ -36,7 +41,7 @@ public class SignupActivity extends AppCompatActivity
         signupButt.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					String email = emailEd.getText().toString();
+					final String email = emailEd.getText().toString();
 					String pwd = passwordEd.getText().toString();
 					if(email.isEmpty()){
 						emailEd.setError("Please enter email id");
@@ -54,7 +59,20 @@ public class SignupActivity extends AppCompatActivity
 								@Override
 								public void onComplete(@NonNull Task<AuthResult> task) {
 									if(!task.isSuccessful()){
+										FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+										String email = mFirebaseUser.getEmail().toString();
+										int index = email.indexOf('@');
+										email = email.substring(0, index);
+										String userId = email.toLowerCase();
+										
 										Toast.makeText(SignupActivity.this,"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
+										Map<String, Object> userInfo = new HashMap<>();
+										userInfo.put("Nombre", nameEd.getText().toString());
+										userInfo.put("Email",email.toString());
+										mDataBase.child("Usuarios/" + userId + "/Perfil").setValue(userInfo);
+
+										
+										
 									}
 									else {
 										startActivity(new Intent(SignupActivity.this,Home.class));
