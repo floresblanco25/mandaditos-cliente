@@ -34,7 +34,6 @@ public class MandaditosCkeckout extends Fragment
 	//interface
 	public interface Listener
 	{
-        void sentAddress(CharSequence input, Boolean isPartidaaa, MarkerOptions markerOpt);
 		void onGatherAllData(String addressA,String addressB,String date, String eta, String totalMoney, 
 		String totalDist,String whereGetMoney);
     }
@@ -154,6 +153,10 @@ public class MandaditosCkeckout extends Fragment
 			
 			
 			
+			
+			
+			
+			
 			//Button checkout
 		checkoutButton.setOnClickListener(new OnClickListener(){
 
@@ -244,6 +247,10 @@ public class MandaditosCkeckout extends Fragment
 
 
 
+	
+	
+	
+	
 
 
 	//cycles

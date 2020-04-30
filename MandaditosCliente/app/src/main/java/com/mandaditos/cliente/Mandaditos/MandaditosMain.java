@@ -60,7 +60,6 @@ public class MandaditosMain extends Fragment implements OnMapReadyCallback
 	public void onMapReady(GoogleMap p1)
 	{
 		gmap = p1;
-        gmap.setMinZoomPreference(12);
 		gmap.setMyLocationEnabled(true);
 		
 		

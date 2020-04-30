@@ -9,19 +9,40 @@ import com.mandaditos.cliente.*;
 import android.util.*;
 import com.google.firebase.database.*;
 import com.mandaditos.cliente.R;
+import java.util.*;
 
 public class MandaditosActivity extends AppCompatActivity implements MandaditosAddressPick.Listener,
 MandaditosMain.Listener,MandaditosCkeckout.Listener
 {
 
-	DatabaseReference rootRef,demoRef;    
+	DatabaseReference mDataBase;    
+	private static Context mContext;
+	MandaditosMain mandaditos;
+	private MandaditosCkeckout checkoutFr;
+    FrameLayout container;
+	private MandaditosAddressPick addresspicker;
+	MarkerOptions m1,m2;
 	
+	
+	
+	
+	//send to realtimedb
 	@Override
 	public void onGatherAllData(String addressA, String addressB, String date, String eta, String totalMoney, String totalDist, String whereGetMoney)
 	{
-		Log.wtf("onGather",addressA+addressB+date+eta+totalMoney+totalDist+whereGetMoney);
-		String value = addressA;                
-		demoRef.child("Nombre").setValue(value);
+//		Log.wtf("onGather",addressA+addressB+date+eta+totalMoney+totalDist+whereGetMoney);
+		Map<String, Object> orderMap = new HashMap<>();
+		orderMap.put("Partida", addressA);
+		orderMap.put("Destino",addressB);
+		orderMap.put("Fecha", date);
+		orderMap.put("ETA",eta);
+		orderMap.put("Costo", totalMoney);
+		orderMap.put("Distancia",totalDist);
+		orderMap.put("Partida", addressA);
+		orderMap.put("Recoger dinero en",whereGetMoney);
+		orderMap.put("Marcador de partida", m1);
+		orderMap.put("Marcador de destino",m2);
+		mDataBase.child("Orden 2").setValue(orderMap);
 		
 		
 		
@@ -29,6 +50,12 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	
 
 
+	
+	
+	
+	
+	
+	//set eta
 	@Override
 	public void sentETA(CharSequence eta)
 	{
@@ -37,9 +64,16 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	
 
 
-	private String kmCostFormat;
-
 	
+	
+	
+	
+	
+	
+	
+	
+	//km and cost
+	private String kmCostFormat;
 	@Override
 	public void onDistanceKm(double km)
 	{
@@ -65,7 +99,17 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
+	//partida?
 	@Override
 	public void setIsPartida(Boolean isPartidaaa)
 	{
@@ -73,6 +117,17 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	}
 
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//addresses
 	@Override
 	public void sentAddress(CharSequence address,Boolean isPartidaaa, MarkerOptions markerOpt)
 	{
@@ -93,8 +148,6 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 			mandaditos.setDistance();
 			checkoutFr.setAddressB(address);
 
-
-//Edited by Mario 
 		}
 		
 	}
@@ -102,12 +155,17 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 
 	
 	
-	private static Context mContext;
-	MandaditosMain mandaditos;
-	private MandaditosCkeckout checkoutFr;
-    FrameLayout container;
-	private MandaditosAddressPick addresspicker;
-	MarkerOptions m1,m2;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	
@@ -124,10 +182,11 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 		mandaditos = MandaditosMain.newInstance();
 		addresspicker = MandaditosAddressPick.newInstance();
 		checkoutFr = MandaditosCkeckout.newInstance();
+		mDataBase = FirebaseDatabase.getInstance().getReference();  
 		
 		
-		rootRef = FirebaseDatabase.getInstance().getReference();  
-		demoRef = rootRef.child("Prueba");      
+		
+		
 		
 		
 		
@@ -173,9 +232,41 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	
 	
 	
+	
+	
 	//cntxt
 	public static Context contxt(){
 		return mContext;
 	}
+	
+	
+	
+	
+	
+	//how to retrieve data from db
+//	mDataBase.child("Personas").addValueEventListener(new ValueEventListener(){
+//
+//	@Override
+//	public void onDataChange(DataSnapshot p1)
+//	{
+//		if(p1.exists()){
+//			String textRetrieved = p1.child("nombre").getValue().toString();
+//			checkoutFr.setAddressA(textRetrieved);
+	
+	//or String textRetrieved = p1.child("Marcador de destino/position/latitude").getValue().toString();
+//		}
+//		else{
+//			checkoutFr.setAddressA(("error"));
+//		}
+//		// TODO: Implement this method
+//	}
+//
+//	@Override
+//	public void onCancelled(DatabaseError p1)
+//	{
+//		// TODO: Implement this method
+//	}
+//	});
+	
 	
 }
