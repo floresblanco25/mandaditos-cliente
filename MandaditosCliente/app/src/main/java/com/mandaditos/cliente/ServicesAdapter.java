@@ -57,8 +57,14 @@ class serviceViewHolder extends RecyclerView.ViewHolder {
 @Override
 public void onClick(View p1)
 {
+	if(getPosition()==0){
 	final Intent i = new Intent(p1.getContext(), MandaditosActivity.class);
 	p1.getContext().startActivity(i);
+	}
+	if(getPosition()==1){
+		final Intent i = new Intent(p1.getContext(), Dashboard.class);
+		p1.getContext().startActivity(i);
+	}
 }
 });
     }

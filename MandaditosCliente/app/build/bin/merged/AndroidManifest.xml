@@ -50,6 +50,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.mandaditos.cliente.Dashboard"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
             android:name="com.mandaditos.cliente.SignupActivity"
             android:label="@string/app_name" >
         </activity>

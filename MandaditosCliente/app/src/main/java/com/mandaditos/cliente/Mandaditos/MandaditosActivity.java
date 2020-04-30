@@ -42,7 +42,7 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 		orderMap.put("Recoger dinero en",whereGetMoney);
 		orderMap.put("Marcador de partida", m1);
 		orderMap.put("Marcador de destino",m2);
-		mDataBase.child("Orden 2").setValue(orderMap);
+		mDataBase.child("Orden").setValue(orderMap);
 		
 		
 		

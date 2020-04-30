@@ -50,13 +50,15 @@ public class Home extends AppCompatActivity
 		//Servicios
         enviarpedido = new ServicesModel(getResources().getString(R.string.enviar_un_pedido), getResources().getString(R.string.enviar_un_pedido_descripcion),
 									 R.drawable.box);
+		ServicesModel dashboard = new ServicesModel("Ordenes en proceso","Aquíencontraras tus pedidos",R.drawable.box);
 									 
 									 
 									 
 									 
-									 
+		//add services					 
         mServicesList.add(enviarpedido);
-		
+		mServicesList.add(dashboard);
+
 		
 		
 		ServicesAdapter myAdapter = new ServicesAdapter(Home.this, mServicesList);

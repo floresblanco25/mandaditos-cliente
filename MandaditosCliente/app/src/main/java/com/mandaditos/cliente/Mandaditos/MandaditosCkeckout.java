@@ -167,6 +167,8 @@ public class MandaditosCkeckout extends Fragment
 											 mDate.getText().toString(),mEtaText.getText().toString(),
 											 totalCost.getText().toString(),distTotal.getText().toString(),
 											 where);
+											 Intent i = new Intent(getActivity(),Dashboard.class);
+											 getActivity().startActivity(i);
 				}
 			});
 
