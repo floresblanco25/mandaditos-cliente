@@ -1,20 +1,21 @@
 package com.mandaditos.cliente;
+import android.content.*;
 import android.os.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
+import android.util.*;
 import android.widget.*;
 import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 import com.mandaditos.cliente.Mandaditos.*;
-import java.util.*;
 import com.mandaditos.cliente.mDashboard.*;
-import android.util.*;
+import java.util.*;
 
 public class Dashboard extends AppCompatActivity
 {
 	DatabaseReference mDataBase;
 	TextView orderNumber, partida,destino,distancia,dateEta, 
-	whereTogetMoney,totalCost;
+	whereTogetMoney,totalCost,orderStatus;
 	FirebaseAuth mFirebaseAuth;
 
 	private ArrayList<MandaditosModel> mList;
@@ -26,13 +27,6 @@ public class Dashboard extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
 		mDataBase = FirebaseDatabase.getInstance().getReference();
-		orderNumber = findViewById(R.id.dashboarOrderTitle);
-		partida = findViewById(R.id.dashboardAddressA);
-		destino = findViewById(R.id.dashboardAddressB);
-		distancia = findViewById(R.id.dashboardDistance);
-		dateEta = findViewById(R.id.dashboardDateEta);
-		whereTogetMoney = findViewById(R.id.dashboardWhereGetMoney);
-		totalCost = findViewById(R.id.dashboardTotalCost);
 		mFirebaseAuth = FirebaseAuth.getInstance();
 		mList = new ArrayList<MandaditosModel>();
 
@@ -49,11 +43,12 @@ public class Dashboard extends AppCompatActivity
 		int index = email.indexOf('@');
 		email = email.substring(0, index);
 		String userId = email.toLowerCase();
-		mDataBase.child("Usuarios/" + userId + "/Ordenes/Mandaditos").addValueEventListener(new ValueEventListener(){
+		mDataBase.child(DbNames.usuarios+"/" + userId + "/Ordenes/Mandaditos").addValueEventListener(new ValueEventListener(){
 
 				@Override
 				public void onDataChange(DataSnapshot p1)
 				{
+					mList.clear();
 					if (p1.exists())
 					{
 						for (DataSnapshot childDataSnapshot : p1.getChildren())
@@ -68,8 +63,13 @@ public class Dashboard extends AppCompatActivity
 								childDataSnapshot.child(DbNames.fecha).getValue().toString(),
 								childDataSnapshot.child(DbNames.eta).getValue().toString(),
 								childDataSnapshot.child(DbNames.wheregetmoney).getValue().toString(),
-								childDataSnapshot.child(DbNames.costo).getValue().toString());
+								childDataSnapshot.child(DbNames.costo).getValue().toString(),
+								childDataSnapshot.child(DbNames.orderStatus).getValue().toString());
+							String status = childDataSnapshot.child(DbNames.orderStatus).getValue().toString();
+							if(status.contains(DbNames.sinCompletar)){
 							mList.add(mObject);
+							}else{
+							}
 						}
 
 						//Recycler
@@ -94,5 +94,11 @@ public class Dashboard extends AppCompatActivity
 				}
 			});
 	}
+	
+	@Override
+	public void onBackPressed() {
+		finishAffinity();
+        startActivity(new Intent(Dashboard.this,Home.class));
+    } 
 
 }

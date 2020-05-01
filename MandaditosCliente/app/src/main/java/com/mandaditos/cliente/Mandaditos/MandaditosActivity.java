@@ -23,6 +23,7 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	private MandaditosCkeckout checkoutFr;
     FrameLayout container;
 	private MandaditosAddressPick addresspicker;
+	private MandaditosMain main;
 	MarkerOptions m1,m2;
 	FirebaseAuth mFirebaseAuth;
 	
@@ -31,24 +32,24 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	
 	//send to realtimedb
 	@Override
-	public void onGatherAllData(String addressA, String addressB, String date, String eta, String totalMoney, String totalDist, String whereGetMoney)
+	public void onGatherAllData(String addressA, String addressB, String date, String eta, String totalMoney, String totalDist, String whereGetMoney,String orderStatus)
 	{
 		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
 		String email = mFirebaseUser.getEmail().toString();
 		int index = email.indexOf('@');
 		email = email.substring(0, index);
 		Map<String, Object> orderMap = new HashMap<>();
-		orderMap.put("Partida", addressA);
-		orderMap.put("Destino",addressB);
-		orderMap.put("Fecha", date);
-		orderMap.put("ETA",eta);
-		orderMap.put("Costo", totalMoney);
-		orderMap.put("Distancia",totalDist);
-		orderMap.put("Partida", addressA);
-		orderMap.put("Recoger dinero en",whereGetMoney);
-		orderMap.put("Marcador de partida", m1);
-		orderMap.put("Marcador de destino",m2);
-		mDataBase.child("Usuarios/"+email+"/Ordenes/Mandaditos").push().setValue(orderMap);
+		orderMap.put(DbNames.partida, addressA);
+		orderMap.put(DbNames.destino,addressB);
+		orderMap.put(DbNames.fecha, date);
+		orderMap.put(DbNames.eta,eta);
+		orderMap.put(DbNames.costo, totalMoney);
+		orderMap.put(DbNames.distancia,totalDist);
+		orderMap.put(DbNames.wheregetmoney,whereGetMoney);
+		orderMap.put(DbNames.marcadorPartida, m1);
+		orderMap.put(DbNames.marcadorDestino,m2);
+		orderMap.put(DbNames.orderStatus,orderStatus);
+		mDataBase.child(DbNames.usuarios+"/"+email+"/Ordenes/Mandaditos").push().setValue(orderMap);
 		Log.wtf("User is",email);
 		
 		
@@ -121,6 +122,7 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	public void setIsPartida(Boolean isPartidaaa)
 	{
 		addresspicker.setIsPartida(isPartidaaa);
+		addresspicker.restartInstance();
 	}
 
 

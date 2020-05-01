@@ -15,10 +15,32 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="Orden 0000001"
+			android:text="Consultando..."
 			android:id="@+id/dashboarOrderTitle"
 			style="@style/title"
 			android:layout_marginBottom="16dp"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Estado de orden"
+			style="@style/info"
+			android:layout_margin="8dp"/>
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Consultando..."
+			style="@style/info"
+			android:layout_margin="8dp"
+			android:id="@+id/dashboardOrderStatus"/>
 
 	</LinearLayout>
 
@@ -37,7 +59,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardAddressA"/>
@@ -59,7 +81,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardAddressB"/>
@@ -81,7 +103,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardDistance"/>
@@ -103,7 +125,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardDateEta"/>
@@ -125,7 +147,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardWhereGetMoney"/>
@@ -147,7 +169,7 @@
 		<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:text="fjvcxfhnmkhfg"
+			android:text="Consultando..."
 			style="@style/info"
 			android:layout_margin="8dp"
 			android:id="@+id/dashboardTotalCost"/>

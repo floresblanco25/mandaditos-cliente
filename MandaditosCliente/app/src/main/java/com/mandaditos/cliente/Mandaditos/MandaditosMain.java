@@ -24,11 +24,12 @@ public class MandaditosMain extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
     private GoogleMap gmap;
-	private TextView edPartida,edDestino,distanceTxt;
+	private TextView distanceTxt;
+	private EditText edPartida,edDestino;
 	public static String tag ="mandaditosmain";
 	private Listener listener;
 	private MarkerOptions m1,m2;
-	private Button checkoutBttn;
+	private Button nextBttn;
 	
 	
 	
@@ -151,7 +152,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	mapView = v.findViewById(R.id.map_view);
 	mapView.onCreate(mapViewBundle);
 	mapView.getMapAsync(this);
-	checkoutBttn=v.findViewById(R.id.mandaditosmainCheckoutButton);
+	nextBttn=v.findViewById(R.id.mandaditosmainCheckoutButton);
 	
 	
 	
@@ -175,6 +176,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			public void onClick(View p1)
 			{
 				
+				restartInstance();
 				listener.setIsPartida(true);
 					FragmentManager manager = getFragmentManager();
 					final FragmentTransaction transaction= manager.beginTransaction();
@@ -190,6 +192,7 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			@Override
 			public void onClick(View p1)
 				{
+					restartInstance();
 					listener.setIsPartida(false);
 				FragmentManager manager = getFragmentManager();
 				final FragmentTransaction transaction= manager.beginTransaction();
@@ -199,16 +202,42 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 							}
 				
 		});
-	checkoutBttn.setOnClickListener(new OnClickListener(){
+		
+		
+	nextBttn.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View p1)
+			
 			{
-				FragmentManager manager = getFragmentManager();
-				final FragmentTransaction transaction= manager.beginTransaction();
-				transaction.show(getFragmentManager().findFragmentByTag(MandaditosCkeckout.tag))
-					.hide(getFragmentManager().findFragmentByTag(tag))
-					.commit();	
+
+				String ed1 = edPartida.getText().toString();
+				String ed2 = edDestino.getText().toString();
+				if(ed1.isEmpty()){
+					edPartida.setError("Ingresa la dirección donde recogeremos el paquete");
+					edPartida.requestFocus();
+				}
+				else  if(ed2.isEmpty()){
+					edDestino.setError("Ingresa la dirección de destino");
+					edDestino.requestFocus();
+				}
+				else  if(ed1.isEmpty() && ed2.isEmpty()){
+					Toast.makeText(getActivity(),"Ingresa los datos requeridos",Toast.LENGTH_SHORT).show();
+				}
+				else  if(!(ed1.isEmpty() && ed2.isEmpty())){
+						FragmentManager manager = getFragmentManager();
+						final FragmentTransaction transaction= manager.beginTransaction();
+						transaction.show(getFragmentManager().findFragmentByTag(MandaditosCkeckout.tag))
+							.hide(getFragmentManager().findFragmentByTag(tag))
+							.commit();	
+
+					
+				}
+				else{
+					Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+
+				}
+
 			}
 		});
 
@@ -249,11 +278,11 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			LatLng distance1=  m1.getPosition();
 			LatLng distance2 = m2.getPosition();
 			
-			Location location1 = new Location("Partida");
+			Location location1 = new Location(DbNames.partida);
 			location1.setLatitude(distance1.latitude);
 			location1.setLongitude(distance1.longitude);
 			
-			Location location2 = new Location("Destino");
+			Location location2 = new Location(DbNames.destino);
 			location2.setLatitude(distance2.latitude);
 			location2.setLongitude(distance2.longitude);
 			
@@ -281,6 +310,11 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 		
 		
 		
+	}
+	
+	public void restartInstance(){
+		edPartida.setError(null);
+		edDestino.setError(null);
 	}
 	
 
@@ -371,6 +405,9 @@ public void onLowMemory()
 	}
 
 
+	
+	
+	
 
 
 

@@ -59,22 +59,18 @@ public class SignupActivity extends AppCompatActivity
 								@Override
 								public void onComplete(@NonNull Task<AuthResult> task) {
 									if(!task.isSuccessful()){
+										Toast.makeText(SignupActivity.this,"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
+									}
+									else {
 										FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
 										String email = mFirebaseUser.getEmail().toString();
 										int index = email.indexOf('@');
 										email = email.substring(0, index);
 										String userId = email.toLowerCase();
-										
-										Toast.makeText(SignupActivity.this,"SignUp Unsuccessful, Please Try Again",Toast.LENGTH_SHORT).show();
 										Map<String, Object> userInfo = new HashMap<>();
 										userInfo.put("Nombre", nameEd.getText().toString());
 										userInfo.put("Email",email.toString());
 										mDataBase.child("Usuarios/" + userId + "/Perfil").setValue(userInfo);
-
-										
-										
-									}
-									else {
 										startActivity(new Intent(SignupActivity.this,Home.class));
 									}
 								}

@@ -1,19 +1,21 @@
 package com.mandaditos.cliente.Mandaditos;
 
 import android.app.*;
+import android.content.*;
 import android.location.*;
 import android.os.*;
+import android.text.*;
 import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
-import java.io.*;
-import java.util.*;
-import com.mandaditos.cliente.R;
-import android.widget.*;
-import android.view.View.*;
 import com.mandaditos.cliente.Mandaditos.*;
-import android.content.*;
+
+import com.mandaditos.cliente.R;
+import android.support.v7.widget.*;
+
 public class MandaditosAddressPick extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
@@ -140,10 +142,10 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 			mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
 		}
 		edAddress = v.findViewById(R.id.address_pickerEditText);
+		okbtn = v.findViewById(R.id.address_pickerButtonNext);
 		mapView = v.findViewById(R.id.map_view_picker);
 		mapView.onCreate(mapViewBundle);
 		mapView.getMapAsync(this);
-		
 
 		
 		
@@ -157,7 +159,6 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 		
 		
 		//button ok
-		okbtn = v.findViewById(R.id.address_pickerButtonNext);
 		okbtn.setOnClickListener(new OnClickListener(){
 
 				private MandaditosMain fragmentToOpen;
@@ -167,13 +168,38 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 				@Override
 				public void onClick(View p1)
 				{
-					CharSequence input = edAddress.getText();
-					listener.sentAddress(input,isPartidaa,marker);
-					FragmentManager manager = getFragmentManager();
-					final FragmentTransaction transaction= manager.beginTransaction();
-					transaction.show(getFragmentManager().findFragmentByTag(MandaditosMain.tag))
-						.hide(getFragmentManager().findFragmentByTag(tag))
-						.commit();	
+					
+					String input = edAddress.getText().toString();
+					if(input.isEmpty()){
+						edAddress.setError("Ingresa la dirección");
+						edAddress.requestFocus();
+					}
+					else  if(marker==null){
+						edAddress.setError("Selecciona en el mapa el lugar exacto");
+						edAddress.requestFocus();
+					}
+					else  if(input.isEmpty() && marker==null){
+						Toast.makeText(getActivity(),"Ingresa la dirección y toca en el mapa el lugar exacto",Toast.LENGTH_SHORT).show();
+					}
+					else  if(!(input.isEmpty() && marker==null)){
+						listener.sentAddress(input,isPartidaa,marker);
+						FragmentManager manager = getFragmentManager();
+						final FragmentTransaction transaction= manager.beginTransaction();
+						transaction.show(getFragmentManager().findFragmentByTag(MandaditosMain.tag))
+							.hide(getFragmentManager().findFragmentByTag(tag))
+							.commit();	
+					}
+					else{
+						Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+
+					}
+					
+					
+					
+					
+					
+					
+					
 						}
 			});
 
@@ -234,7 +260,11 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 	public void clearMarkers(){
 		gmap.clear();
 	}
-
+	public void restartInstance(){
+		marker=null;
+		edAddress.setError(null);
+	}
+	
 	
 	
 	
@@ -300,7 +330,14 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
         }
 	}
 
-
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 

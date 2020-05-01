@@ -61,7 +61,7 @@
 					style="@style/info"
 					android:layout_marginBottom="8dp"/>
 
-				<TextView
+				<EditText
 					android:editable="false"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
 					style="@style/rounded_edittext"
 					android:id="@+id/ed1"/>
 
-				<TextView
+				<EditText
 					android:editable="false"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"

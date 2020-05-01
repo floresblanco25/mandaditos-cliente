@@ -21,8 +21,11 @@ public class MandaditosCkeckout extends Fragment
 	private Listener listener;
 	private TextView addressA,addressB,mDate,mEtaText,totalCost,distTotal;
 	private RadioGroup money;
-	private String where="Partida";
+	private String where=DbNames.partida;
 	private Button checkoutButton;
+	private String orderStatus=DbNames.sinCompletar;
+
+	private TextView dondeRecogeremosEffectivo;
 
 
 	
@@ -35,7 +38,7 @@ public class MandaditosCkeckout extends Fragment
 	public interface Listener
 	{
 		void onGatherAllData(String addressA,String addressB,String date, String eta, String totalMoney, 
-		String totalDist,String whereGetMoney);
+		String totalDist,String whereGetMoney,String orderStatus);
     }
 
 
@@ -95,6 +98,7 @@ public class MandaditosCkeckout extends Fragment
 		money = v.findViewById(R.id.checkoutRadioGroupMoney);
 		distTotal = v.findViewById(R.id.totalDistance);
 		checkoutButton = v.findViewById(R.id.checkoutButtonProcess);
+		dondeRecogeremosEffectivo = v.findViewById(R.id.checkoutTextDonderecogerefectivo);
 
 
 
@@ -130,14 +134,14 @@ public class MandaditosCkeckout extends Fragment
 
 					// find the radiobutton by returned id
 					RadioButton whereButton = p1.findViewById(selectedId);
-					if (whereButton.getText().toString().toLowerCase().contains("partida"))
+					if (whereButton.getText().toString().toLowerCase().contains(DbNames.partida.toLowerCase()))
 					{
-						where = "partida";
+						where = DbNames.partida;
 					}
 
-					if (whereButton.getText().toString().toLowerCase().contains("destino"))
+					if (whereButton.getText().toString().toLowerCase().contains(DbNames.destino.toLowerCase()))
 					{
-						where = "destino";
+						where = DbNames.destino;
 					}
 				}
 
@@ -163,12 +167,28 @@ public class MandaditosCkeckout extends Fragment
 				@Override
 				public void onClick(View p1)
 				{
-					listener.onGatherAllData(addressA.getText().toString(),addressB.getText().toString(),
-											 mDate.getText().toString(),mEtaText.getText().toString(),
-											 totalCost.getText().toString(),distTotal.getText().toString(),
-											 where);
-											 Intent i = new Intent(getActivity(),Dashboard.class);
-											 getActivity().startActivity(i);
+					if(money.getCheckedRadioButtonId()== -1){
+						dondeRecogeremosEffectivo.setError("Selecciona donde recogeremos el pago");
+						dondeRecogeremosEffectivo.requestFocus();
+					}
+					else  if(!(money.getCheckedRadioButtonId()== -1)){
+						listener.onGatherAllData(addressA.getText().toString(),addressB.getText().toString(),
+												 mDate.getText().toString(),mEtaText.getText().toString(),
+												 totalCost.getText().toString(),distTotal.getText().toString(),
+												 where,orderStatus);
+						Intent i = new Intent(getActivity(),Dashboard.class);
+						getActivity().startActivity(i);
+					}
+					else{
+						Toast.makeText(getActivity(),"Error",Toast.LENGTH_SHORT).show();
+
+					}
+					
+					
+					
+					
+					
+					
 				}
 			});
 

@@ -17,7 +17,7 @@
 			android:src="@drawable/menu_icon"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:tint="#52416C"
+			android:tint="#402B60"
 			android:layout_gravity="left|center"/>
 
 		<TextView

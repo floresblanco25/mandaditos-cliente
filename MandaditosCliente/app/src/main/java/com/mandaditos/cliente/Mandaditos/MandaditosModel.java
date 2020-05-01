@@ -12,10 +12,11 @@ public class MandaditosModel
     private String wheretogetmoney;
 	private String costo;
 	private String orderName;
+	private String orderStatus;
 
     public MandaditosModel( String orderName,
 		String partida, String destino, String distancia, String fecha
-		, String eta, String wheregetmoney, String costo) {
+		, String eta, String wheregetmoney, String costo, String orderStatus) {
         this.partida = partida;
         this.destino = destino;
 		this.distancia = distancia;
@@ -24,6 +25,7 @@ public class MandaditosModel
         this.wheretogetmoney = wheregetmoney;
 		this.costo = costo;
 		this.orderName=orderName;
+		this.orderStatus=orderStatus;
     }
 
     public String getPartida() {
@@ -52,6 +54,9 @@ public class MandaditosModel
     }
 	public String getOrderName(){
 		return orderName;
+	}
+	public String getOrderStatus(){
+		return orderStatus;
 	}
 
 }

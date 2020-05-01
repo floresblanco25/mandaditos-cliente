@@ -113,6 +113,7 @@
 					android:layout_marginBottom="16dp"/>
 
 				<TextView
+					android:id="@+id/checkoutTextDonderecogerefectivo"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="¿DÓNDE RECOGEREMOS EL EFECTIVO?"

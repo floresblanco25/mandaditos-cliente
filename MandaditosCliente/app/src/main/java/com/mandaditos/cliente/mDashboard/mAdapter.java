@@ -74,6 +74,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 		String eta = object.getEta();
 		String wheremoney = object.getWheregetMoney();
 		String cost = object.getCost();
+		String status = object.getOrderStatus();
 
 
 
@@ -86,6 +87,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 		xmlRow.dateEta.setText(date+" "+eta);
 		xmlRow.whereTogetMoney.setText(wheremoney);
 		xmlRow.totalCost.setText(cost);
+		xmlRow.orderStatus.setText(status);
 
 
 
@@ -120,7 +122,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
     {
 
 //initialize
-        private TextView orderNumber,partida,destino,distancia,dateEta,whereTogetMoney,totalCost;;
+        private TextView orderNumber,partida,destino,distancia,dateEta,whereTogetMoney,totalCost,orderStatus;;
 		private Context context;
 
 
@@ -137,6 +139,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 			dateEta = v.findViewById(R.id.dashboardDateEta);
 			whereTogetMoney = v.findViewById(R.id.dashboardWhereGetMoney);
 			totalCost = v.findViewById(R.id.dashboardTotalCost);
+			orderStatus = v.findViewById(R.id.dashboardOrderStatus);
 			context = v.getContext();
 
 
