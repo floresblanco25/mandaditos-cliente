@@ -1,4 +1,5 @@
 package com.mandaditos.cliente;
+import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.support.v7.app.*;
@@ -21,6 +22,8 @@ public class Dashboard extends AppCompatActivity
 	private ArrayList<MandaditosModel> mList;
 	RecyclerView recyclerView;
     mAdapter adapter;
+
+	private ProgressDialog pDialog;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -29,6 +32,17 @@ public class Dashboard extends AppCompatActivity
 		mDataBase = FirebaseDatabase.getInstance().getReference();
 		mFirebaseAuth = FirebaseAuth.getInstance();
 		mList = new ArrayList<MandaditosModel>();
+		
+		
+		
+		
+		
+		
+		
+		//dialog 
+		pDialog = new ProgressDialog(Dashboard.this);
+		pDialog.setMessage("Cargando datos de los servidores..");
+		pDialog.show();
 
 
 
@@ -48,6 +62,7 @@ public class Dashboard extends AppCompatActivity
 				@Override
 				public void onDataChange(DataSnapshot p1)
 				{
+					pDialog.dismiss();
 					mList.clear();
 					if (p1.exists())
 					{

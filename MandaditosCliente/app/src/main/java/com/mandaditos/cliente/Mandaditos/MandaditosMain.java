@@ -170,39 +170,36 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 	
 	
 //ed click 
-	edPartida.setOnClickListener(new View.OnClickListener(){
+	edPartida.setOnTouchListener(new OnTouchListener(){
 
 			@Override
-			public void onClick(View p1)
+			public boolean onTouch(View p1, MotionEvent p2)
 			{
-				
 				restartInstance();
 				listener.setIsPartida(true);
-					FragmentManager manager = getFragmentManager();
-					final FragmentTransaction transaction= manager.beginTransaction();
-						transaction.show(getFragmentManager().findFragmentByTag(MandaditosAddressPick.tag))
-						.hide(getFragmentManager().findFragmentByTag(tag))
-						.commit();	
-						}
-		});
-		
-		
-	edDestino.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View p1)
-				{
-					restartInstance();
-					listener.setIsPartida(false);
 				FragmentManager manager = getFragmentManager();
 				final FragmentTransaction transaction= manager.beginTransaction();
 				transaction.show(getFragmentManager().findFragmentByTag(MandaditosAddressPick.tag))
 					.hide(getFragmentManager().findFragmentByTag(tag))
 					.commit();	
-							}
-				
+				return false;
+			}
 		});
-		
+	edDestino.setOnTouchListener(new OnTouchListener(){
+
+			@Override
+			public boolean onTouch(View p1, MotionEvent p2)
+			{
+				restartInstance();
+				listener.setIsPartida(false);
+				FragmentManager manager = getFragmentManager();
+				final FragmentTransaction transaction= manager.beginTransaction();
+				transaction.show(getFragmentManager().findFragmentByTag(MandaditosAddressPick.tag))
+					.hide(getFragmentManager().findFragmentByTag(tag))
+					.commit();	
+				return false;
+			}
+		});
 		
 	nextBttn.setOnClickListener(new OnClickListener(){
 
