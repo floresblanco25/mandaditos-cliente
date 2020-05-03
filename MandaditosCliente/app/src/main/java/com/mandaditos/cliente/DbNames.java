@@ -2,21 +2,21 @@ package com.mandaditos.cliente;
 
 public class DbNames
 {
-	public static String partida = "Partida";
-	public static String destino = "Destino";
-	public static String distancia = "Distancia";
-	public static String fecha = "Fecha";
-	public static String eta = "ETA";
-	public static String wheregetmoney = "Recoger dinero en";
-	public static String costo = "Costo";
-	public static String marcadorPartida="Marcador de partida";
-	public static String marcadorDestino="Marcador de destino";
-	public static String orderStatus="Estado de orden";
+	public static String Partida = "Partida";
+	public static String Destino = "Destino";
+	public static String Distancia = "Distancia";
+	public static String Fecha = "Fecha";
+	public static String Eta = "ETA";
+	public static String RecogerDineroEn = "Recoger dinero en";
+	public static String Costo = "Costo";
+	public static String MarcadorDePartidq="Marcador de partida";
+	public static String MarcadorDeDestino="Marcador de destino";
+	public static String EstadoDeOrden="Estado de orden";
 
-	public static String completado="Completado";
+	public static String Completado="Completado";
 	
-	public static String sinCompletar="Sin completar";
-	public static String usuarios="Usuarios";
+	public static String SinCompletar="Sin completar";
+	public static String Usuarios="Usuarios";
 	
 	
 }

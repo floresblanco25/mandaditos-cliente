@@ -5,13 +5,18 @@ import android.app.*;
 import android.content.*;
 import android.os.*;
 import android.view.*;
+import android.view.View.*;
 import android.widget.*;
 import android.widget.RadioGroup.*;
 import com.google.android.gms.maps.model.*;
+import com.google.firebase.auth.*;
 import com.mandaditos.cliente.*;
 import java.text.*;
 import java.util.*;
-import android.util.*;
+
+import android.view.View.OnClickListener;
+import com.mandaditos.cliente.R;
+import com.google.firebase.database.*;
 public class MandaditosCkeckout extends Fragment 
 {
 	public static String tag ="checkout";
@@ -21,11 +26,18 @@ public class MandaditosCkeckout extends Fragment
 	private Listener listener;
 	private TextView addressA,addressB,mDate,mEtaText,totalCost,distTotal;
 	private RadioGroup money;
-	private String where=DbNames.partida;
+	private String where=DbNames.Partida;
 	private Button checkoutButton;
-	private String orderStatus=DbNames.sinCompletar;
+	private String EstadoDeOrden=DbNames.SinCompletar;
 
 	private TextView dondeRecogeremosEffectivo;
+	private LatLng latLngA;
+
+	private LatLng latLngB;
+	
+	FirebaseAuth mFirebaseAuth;
+	DatabaseReference mDataBase;
+	private String Usuario;
 
 
 	
@@ -37,8 +49,11 @@ public class MandaditosCkeckout extends Fragment
 	//interface
 	public interface Listener
 	{
-		void onGatherAllData(String addressA,String addressB,String date, String eta, String totalMoney, 
-		String totalDist,String whereGetMoney,String orderStatus);
+		void onGatherAllData(
+			String Usuario,String Partida, String Destino, String Distancia, String Fecha, 
+			String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden,LatLng LatLngA,
+			LatLng LatLngB
+		);
     }
 
 
@@ -73,6 +88,27 @@ public class MandaditosCkeckout extends Fragment
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		mDataBase = FirebaseDatabase.getInstance().getReference();
+		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+		String email = mFirebaseUser.getEmail().toString();
+		int index = email.indexOf('@');
+		email = email.substring(0, index);
+		String userId = email.toLowerCase();
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Usuarios/" + userId + "/Perfil").child("nombre");
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(DataSnapshot dataSnapshot) {
+					String Usuario = dataSnapshot.getValue(String.class);
+					setUsuario(Usuario);
+
+				}
+
+				@Override
+				public void onCancelled(DatabaseError databaseError) {
+
+				}
+			});
 
 	}
 
@@ -99,6 +135,7 @@ public class MandaditosCkeckout extends Fragment
 		distTotal = v.findViewById(R.id.totalDistance);
 		checkoutButton = v.findViewById(R.id.checkoutButtonProcess);
 		dondeRecogeremosEffectivo = v.findViewById(R.id.checkoutTextDonderecogerefectivo);
+		
 
 
 
@@ -134,14 +171,14 @@ public class MandaditosCkeckout extends Fragment
 
 					// find the radiobutton by returned id
 					RadioButton whereButton = p1.findViewById(selectedId);
-					if (whereButton.getText().toString().toLowerCase().contains(DbNames.partida.toLowerCase()))
+					if (whereButton.getText().toString().toLowerCase().contains(DbNames.Partida.toLowerCase()))
 					{
-						where = DbNames.partida;
+						where = DbNames.Partida;
 					}
 
-					if (whereButton.getText().toString().toLowerCase().contains(DbNames.destino.toLowerCase()))
+					if (whereButton.getText().toString().toLowerCase().contains(DbNames.Destino.toLowerCase()))
 					{
-						where = DbNames.destino;
+						where = DbNames.Destino;
 					}
 				}
 
@@ -167,15 +204,31 @@ public class MandaditosCkeckout extends Fragment
 				@Override
 				public void onClick(View p1)
 				{
-					if(money.getCheckedRadioButtonId()== -1){
+					String Partida = addressA.getText().toString();
+					String Destino = addressB.getText().toString();
+					String Distancia = distTotal.getText().toString();
+					String Fecha = mDate.getText().toString();
+					String ETA = mEtaText.getText().toString();
+					String Costo = totalCost.getText().toString();
+					LatLng LatLngA = latLngA ;
+					LatLng LatLngB = latLngB;
+					String RecogerDineroEn = where;
+					
+					
+					
+
+					if (money.getCheckedRadioButtonId() == -1)
+{
 						dondeRecogeremosEffectivo.setError("Selecciona donde recogeremos el pago");
 						dondeRecogeremosEffectivo.requestFocus();
 					}
 					else  if(!(money.getCheckedRadioButtonId()== -1)){
-						listener.onGatherAllData(addressA.getText().toString(),addressB.getText().toString(),
-												 mDate.getText().toString(),mEtaText.getText().toString(),
-												 totalCost.getText().toString(),distTotal.getText().toString(),
-												 where,orderStatus);
+						listener.onGatherAllData(
+							Usuario, Partida,  Destino,  Distancia,  Fecha, 
+							ETA,  RecogerDineroEn,  Costo,  EstadoDeOrden,LatLngA,LatLngB
+												 );
+												 
+												 
 						Intent i = new Intent(getActivity(),Dashboard.class);
 						getActivity().startActivity(i);
 					}
@@ -236,6 +289,11 @@ public class MandaditosCkeckout extends Fragment
 
 
 	//voids
+	public void setUsuario(String usuario)
+	{
+		Usuario=usuario;
+	}
+	
 	public void setAddressA(CharSequence t)
 	{
 		addressA.setText(t);
@@ -260,6 +318,12 @@ public class MandaditosCkeckout extends Fragment
 	}
 	public void setETAText(CharSequence t){
 		mEtaText.setText(t);
+	}
+	public void setLatLngA(LatLng ltlngA){
+		latLngA=ltlngA;
+	}
+	public void setLatLngB(LatLng ltlngB){
+		latLngB=ltlngB;
 	}
 	
 

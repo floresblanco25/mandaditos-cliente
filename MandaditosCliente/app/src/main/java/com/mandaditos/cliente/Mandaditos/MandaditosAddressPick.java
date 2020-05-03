@@ -25,6 +25,7 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 	private MarkerOptions marker;
 	public static String tag ="addresspicker";
 	private Boolean isPartidaa;
+	private LatLng mLatLng;
 	
 	
 	
@@ -36,7 +37,7 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 	private Listener listener;
 	//interface
 	public interface Listener {
-        void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt);
+        void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt,LatLng LatLng);
     }
 
 
@@ -78,6 +79,7 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 				public void onMapClick(LatLng point) {
 					gmap.clear();
 					marker = new MarkerOptions().position(point);
+					mLatLng = point;
 					gmap.addMarker(marker);
 				}
 			});
@@ -182,7 +184,7 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 						Toast.makeText(getActivity(),"Ingresa la dirección y toca en el mapa el lugar exacto",Toast.LENGTH_SHORT).show();
 					}
 					else  if(!(input.isEmpty() && marker==null)){
-						listener.sentAddress(input,isPartidaa,marker);
+						listener.sentAddress(input,isPartidaa,marker,mLatLng);
 						FragmentManager manager = getFragmentManager();
 						final FragmentTransaction transaction= manager.beginTransaction();
 						transaction.show(getFragmentManager().findFragmentByTag(MandaditosMain.tag))

@@ -58,7 +58,7 @@ class serviceViewHolder extends RecyclerView.ViewHolder {
 public void onClick(View p1)
 {
 	if(getPosition()==0){
-	final Intent i = new Intent(p1.getContext(), MandaditosActivity.class);
+	final Intent i = new Intent(p1.getContext(), MandaditosLauncherActivity.class);
 	p1.getContext().startActivity(i);
 	}
 	if(getPosition()==1){

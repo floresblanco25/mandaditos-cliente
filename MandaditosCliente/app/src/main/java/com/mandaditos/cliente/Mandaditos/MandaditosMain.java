@@ -275,11 +275,11 @@ public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bun
 			LatLng distance1=  m1.getPosition();
 			LatLng distance2 = m2.getPosition();
 			
-			Location location1 = new Location(DbNames.partida);
+			Location location1 = new Location(DbNames.Partida);
 			location1.setLatitude(distance1.latitude);
 			location1.setLongitude(distance1.longitude);
 			
-			Location location2 = new Location(DbNames.destino);
+			Location location2 = new Location(DbNames.Destino);
 			location2.setLatitude(distance2.latitude);
 			location2.setLongitude(distance2.longitude);
 			

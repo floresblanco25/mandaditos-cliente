@@ -18,7 +18,8 @@
 			android:text="Consultando..."
 			android:id="@+id/dashboarOrderTitle"
 			style="@style/title"
-			android:layout_marginBottom="16dp"/>
+			android:layout_marginBottom="16dp"
+			android:layout_margin="8dp"/>
 
 	</LinearLayout>
 

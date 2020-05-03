@@ -16,7 +16,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 
 
 //constructor
-	List<MandaditosModel> recyclerRowModelList;
+	List<MandaditosDataModel> recyclerRowModelList;
     LinearLayout row;
 
 
@@ -24,7 +24,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 
 
 
-    public mAdapter(List<MandaditosModel> recyclerRowModelList)
+    public mAdapter(List<MandaditosDataModel> recyclerRowModelList)
     {
         this.recyclerRowModelList = recyclerRowModelList;
     }
@@ -36,7 +36,7 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
 
 
 //filter
-	public void filterList(List<MandaditosModel> filterdNames)
+	public void filterList(List<MandaditosDataModel> filterdNames)
 	{
         this.recyclerRowModelList = filterdNames;
         notifyDataSetChanged();
@@ -65,22 +65,20 @@ public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(ViewHolder xmlRow, int position)
     {
-		MandaditosModel object = recyclerRowModelList.get(position);
-		String orderName = object.getOrderName();
+		MandaditosDataModel object = recyclerRowModelList.get(position);
 		String partida = object.getPartida();
 		String destino = object.getDestino();
 		String distancia = object.getDistancia();
 		String date = object.getFecha();
 		String eta = object.getEta();
-		String wheremoney = object.getWheregetMoney();
-		String cost = object.getCost();
-		String status = object.getOrderStatus();
+		String wheremoney = object.getRecogerDineroEn();
+		String cost = object.getCosto();
+		String status = object.getEstadoDeOrden();
 
 
 
 
 //set row texts
-		xmlRow.orderNumber.setText(orderName);
         xmlRow.partida.setText(partida);
 		xmlRow.destino.setText(destino);
 		xmlRow.distancia.setText(distancia);

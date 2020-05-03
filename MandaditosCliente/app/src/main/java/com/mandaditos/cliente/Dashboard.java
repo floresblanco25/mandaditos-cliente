@@ -16,10 +16,10 @@ public class Dashboard extends AppCompatActivity
 {
 	DatabaseReference mDataBase;
 	TextView orderNumber, partida,destino,distancia,dateEta, 
-	whereTogetMoney,totalCost,orderStatus;
+	whereTogetMoney,totalCost,EstadoDeOrden;
 	FirebaseAuth mFirebaseAuth;
 
-	private ArrayList<MandaditosModel> mList;
+	private ArrayList<MandaditosDataModel> mList;
 	RecyclerView recyclerView;
     mAdapter adapter;
 
@@ -31,7 +31,7 @@ public class Dashboard extends AppCompatActivity
 		setContentView(R.layout.dashboard);
 		mDataBase = FirebaseDatabase.getInstance().getReference();
 		mFirebaseAuth = FirebaseAuth.getInstance();
-		mList = new ArrayList<MandaditosModel>();
+		mList = new ArrayList<MandaditosDataModel>();
 		
 		
 		
@@ -57,7 +57,7 @@ public class Dashboard extends AppCompatActivity
 		int index = email.indexOf('@');
 		email = email.substring(0, index);
 		String userId = email.toLowerCase();
-		mDataBase.child(DbNames.usuarios+"/" + userId + "/Ordenes/Mandaditos").addValueEventListener(new ValueEventListener(){
+		mDataBase.child(DbNames.Usuarios+"/" + userId + "/Ordenes/Mandaditos").addValueEventListener(new ValueEventListener(){
 
 				@Override
 				public void onDataChange(DataSnapshot p1)
@@ -69,22 +69,6 @@ public class Dashboard extends AppCompatActivity
 						for (DataSnapshot childDataSnapshot : p1.getChildren())
 						{
 							childDataSnapshot.getKey().toString();
-							MandaditosModel mObject = new MandaditosModel
-							(
-								childDataSnapshot.getKey().toString(),
-								childDataSnapshot.child(DbNames.partida).getValue().toString(),
-								childDataSnapshot.child(DbNames.destino).getValue().toString(),
-								childDataSnapshot.child(DbNames.distancia).getValue().toString(),
-								childDataSnapshot.child(DbNames.fecha).getValue().toString(),
-								childDataSnapshot.child(DbNames.eta).getValue().toString(),
-								childDataSnapshot.child(DbNames.wheregetmoney).getValue().toString(),
-								childDataSnapshot.child(DbNames.costo).getValue().toString(),
-								childDataSnapshot.child(DbNames.orderStatus).getValue().toString());
-							String status = childDataSnapshot.child(DbNames.orderStatus).getValue().toString();
-							if(status.contains(DbNames.sinCompletar)){
-							mList.add(mObject);
-							}else{
-							}
 						}
 
 						//Recycler
