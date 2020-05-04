@@ -1,169 +1,82 @@
 package com.mandaditos.cliente.mDashboard;
 
-import android.app.*;
 import android.content.*;
-import android.os.*;
 import android.support.v7.widget.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.mandaditos.cliente.*;
-import com.mandaditos.cliente.Mandaditos.*;
+import com.mandaditos.cliente.mMandaditos.*;
 import java.util.*;
+import android.util.*;
 
-public class mAdapter extends RecyclerView.Adapter<mAdapter.ViewHolder>
+public class mAdapter extends RecyclerView.Adapter<mViewHolder>
 {
 
+    private Context mContext;
+    private List<MandaditosDataModel> mDataList;
 
-//constructor
-	List<MandaditosDataModel> recyclerRowModelList;
-    LinearLayout row;
-
-
-
-
-
-
-    public mAdapter(List<MandaditosDataModel> recyclerRowModelList)
-    {
-        this.recyclerRowModelList = recyclerRowModelList;
+    mAdapter(Context mContext, List< MandaditosDataModel > mDataList) {
+        this.mContext = mContext;
+        this.mDataList = mDataList;
     }
 
-
-
-
-
-
-
-//filter
-	public void filterList(List<MandaditosDataModel> filterdNames)
-	{
-        this.recyclerRowModelList = filterdNames;
-        notifyDataSetChanged();
-    }
-
-
-
-
-
-
-//inflate
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_row, parent, false);//Inflates the xml row
-        ViewHolder viewHolder = new ViewHolder(v);
-        return viewHolder;
+    public mViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View mView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dashboard_row, parent, false);
+        return new mViewHolder(mView);
     }
 
-
-
-
-
-
-//bind
     @Override
-    public void onBindViewHolder(ViewHolder xmlRow, int position)
-    {
-		MandaditosDataModel object = recyclerRowModelList.get(position);
-		String partida = object.getPartida();
-		String destino = object.getDestino();
-		String distancia = object.getDistancia();
-		String date = object.getFecha();
-		String eta = object.getEta();
-		String wheremoney = object.getRecogerDineroEn();
-		String cost = object.getCosto();
-		String status = object.getEstadoDeOrden();
-
-
-
-
-//set row texts
-        xmlRow.partida.setText(partida);
-		xmlRow.destino.setText(destino);
-		xmlRow.distancia.setText(distancia);
-		xmlRow.dateEta.setText(date+" "+eta);
-		xmlRow.whereTogetMoney.setText(wheremoney);
-		xmlRow.totalCost.setText(cost);
-		xmlRow.orderStatus.setText(status);
-
-
-
-
-
-
-//set progress bar 
-
-
+    public void onBindViewHolder(final mViewHolder holder, int position) {
+		holder.PartidaTv.setText(mDataList.get(position).getPartida());
+		holder.DestinoTv.setText(mDataList.get(position).getDestino());
+		holder.DistanciaTv.setText(mDataList.get(position).getDistancia());
+		holder.FechaEtaTv.setText(mDataList.get(position).getFecha()+" "+mDataList.get(position).getEta());
+		holder.DondeRecogerDineroTv.setText(mDataList.get(position).getRecogerDineroEn());
+		holder.CostoTv.setText(mDataList.get(position).getCosto());
+		holder.EstadoDeOrdenTv.setText(mDataList.get(position).getEstadoDeOrden());
+		holder.NumeroDeOrdenTv.setText(mDataList.get(position).getNumeroDeOrden());
     }
 
-
-
-
-
-
-//count
     @Override
-    public int getItemCount()
-    {
-        return recyclerRowModelList.size();
+    public int getItemCount() {
+        return mDataList.size();
+    }
+}
+
+class mViewHolder extends RecyclerView.ViewHolder {
+
+    TextView NumeroDeOrdenTv,PartidaTv,DestinoTv,DistanciaTv,FechaEtaTv,DondeRecogerDineroTv,CostoTv,EstadoDeOrdenTv;
+	private Context context;
+
+    mViewHolder(View v) {
+        super(v);
+		
+				NumeroDeOrdenTv = v.findViewById(R.id.dashboarOrderTitle);
+				PartidaTv = v.findViewById(R.id.dashboardAddressA);
+				DestinoTv = v.findViewById(R.id.dashboardAddressB);
+				DistanciaTv = v.findViewById(R.id.dashboardDistance);
+				FechaEtaTv = v.findViewById(R.id.dashboardDateEta);
+				DondeRecogerDineroTv = v.findViewById(R.id.dashboardWhereGetMoney);
+				CostoTv = v.findViewById(R.id.dashboardTotalCost);
+				EstadoDeOrdenTv = v.findViewById(R.id.dashboardOrderStatus);
+				context = v.getContext();
+
+		v.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View p1)
+				{
+				}
+			});
     }
 
 
 
 
 
-
-
-//viewholder class
-    public class ViewHolder extends RecyclerView.ViewHolder 
-    {
-
-//initialize
-        private TextView orderNumber,partida,destino,distancia,dateEta,whereTogetMoney,totalCost,orderStatus;;
-		private Context context;
-
-
-
-//view holder
-        public ViewHolder(final View v)
-		{
-            super(v);
-//initialize
-            orderNumber = v.findViewById(R.id.dashboarOrderTitle);
-			partida = v.findViewById(R.id.dashboardAddressA);
-			destino = v.findViewById(R.id.dashboardAddressB);
-			distancia = v.findViewById(R.id.dashboardDistance);
-			dateEta = v.findViewById(R.id.dashboardDateEta);
-			whereTogetMoney = v.findViewById(R.id.dashboardWhereGetMoney);
-			totalCost = v.findViewById(R.id.dashboardTotalCost);
-			orderStatus = v.findViewById(R.id.dashboardOrderStatus);
-			context = v.getContext();
-
-
-
-
-
-
-
-
-
-
-
-//view click
-			v.setOnClickListener(new OnClickListener(){
-
-					@Override
-					public void onClick(View p1)
-					{
-						//TODO implement actions for each order
-					}
-				});
-
-        }
-
-
-    }
 
 
 }
+

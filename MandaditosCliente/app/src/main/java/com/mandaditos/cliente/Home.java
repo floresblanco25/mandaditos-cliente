@@ -1,26 +1,17 @@
 package com.mandaditos.cliente;
-import android.Manifest;
-import android.content.*;
-import android.graphics.*;
-import android.net.*;
+import android.*;
 import android.os.*;
 import android.support.annotation.*;
-import android.support.design.widget.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
-import android.text.*;
-import android.view.*;
-import android.view.View.*;
-import android.widget.*;
-import java.io.*;
-import java.net.*;
+import com.mandaditos.cliente.mUtilities.*;
 import java.util.*;
 
-import android.support.v7.widget.Toolbar;
+import android.Manifest;
 public class Home extends AppCompatActivity
 {
 
-	private ServicesModel enviarpedido;
+	private mHomeModel enviarpedido;
 	private RequestPermissionHandler mRequestPermissionHandler;
 
 	
@@ -41,16 +32,16 @@ public class Home extends AppCompatActivity
 		
 		
 		
-		List< ServicesModel > mServicesList = new ArrayList<>();
+		List< mHomeModel > mServicesList = new ArrayList<>();
 		
 		
 		
 		
 		
 		//Servicios
-        enviarpedido = new ServicesModel(getResources().getString(R.string.enviar_un_pedido), getResources().getString(R.string.enviar_un_pedido_descripcion),
+        enviarpedido = new mHomeModel(getResources().getString(R.string.enviar_un_pedido), getResources().getString(R.string.enviar_un_pedido_descripcion),
 									 R.drawable.box);
-		ServicesModel dashboard = new ServicesModel("Ordenes en proceso","Aquíencontraras tus pedidos",R.drawable.box);
+		mHomeModel dashboard = new mHomeModel("Ordenes en proceso","Aquíencontraras tus pedidos",R.drawable.box);
 									 
 									 
 									 
@@ -61,7 +52,7 @@ public class Home extends AppCompatActivity
 
 		
 		
-		ServicesAdapter myAdapter = new ServicesAdapter(Home.this, mServicesList);
+		mHomeAdapter myAdapter = new mHomeAdapter(Home.this, mServicesList);
 		mRecyclerView.setAdapter(myAdapter);
 		
 		}

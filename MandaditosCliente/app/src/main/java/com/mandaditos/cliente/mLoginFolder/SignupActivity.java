@@ -71,7 +71,7 @@ public class SignupActivity extends AppCompatActivity
 										int index = email.indexOf('@');
 										email = email.substring(0, index);
 										String userId = email.toLowerCase();
-										mDataBase.child("Usuarios/" + userId + "/Perfil").setValue(new user(nameEd.getText().toString()));
+										mDataBase.child("Usuarios/" + userId + "/Perfil").setValue(new mUser(nameEd.getText().toString()));
 										startActivity(new Intent(SignupActivity.this,Home.class));
 									}
 								}

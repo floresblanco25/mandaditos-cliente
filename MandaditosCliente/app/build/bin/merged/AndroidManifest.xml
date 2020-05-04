@@ -50,7 +50,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.mandaditos.cliente.Dashboard"
+            android:name="com.mandaditos.cliente.mDashboard.mDashboard"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -62,7 +62,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.mandaditos.cliente.Mandaditos.MandaditosLauncherActivity"
+            android:name="com.mandaditos.cliente.mMandaditos.MandaditosLauncherActivity"
             android:label="@string/app_name" >
         </activity>
 
