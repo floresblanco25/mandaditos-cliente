@@ -41,7 +41,7 @@
         android:resizeableActivity="true"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.mandaditos.cliente.LoginActivity"
+            android:name="com.mandaditos.cliente.mLoginFolder.LoginActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -54,7 +54,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.mandaditos.cliente.SignupActivity"
+            android:name="com.mandaditos.cliente.mLoginFolder.SignupActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
