@@ -6,9 +6,8 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 import com.mandaditos.cliente.*;
-import com.mandaditos.cliente.mMandaditos.*;
+import com.mandaditos.cliente.models.*;
 import java.util.*;
-import android.util.*;
 
 public class mAdapter extends RecyclerView.Adapter<mViewHolder>
 {

@@ -8,9 +8,10 @@ import com.google.android.gms.maps.model.*;
 import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 import com.mandaditos.cliente.*;
+import com.mandaditos.cliente.mUtilities.*;
+import com.mandaditos.cliente.models.*;
 
 import com.mandaditos.cliente.R;
-import com.mandaditos.cliente.mUtilities.*;
 
 public class MandaditosLauncherActivity extends AppCompatActivity implements MandaditosAddressPick.Listener,
 MandaditosMain.Listener,MandaditosCkeckout.Listener
@@ -54,13 +55,12 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 
 
 	@Override
-	public void onGatherAllData(
-		String Usuario, String Partida, String Destino, String Distancia, String Fecha, String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden, LatLng LatLngA, LatLng LatLngB){
+	public void onGatherAllData(String Usuario, String Partida, String Destino, String Distancia, String Fecha, String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden, LatLng LatLngA, LatLng LatLngB){
 		//push data
 		String mUserId = loadData(MandaditosLauncherActivity.this,"mUserId");
-			FirebaseDatabase.getInstance().getReference(DbNames.Ordenes)
-			.push()
-			.setValue(new MandaditosDataModel(mUserId,Usuario, Partida, Destino, Distancia, Fecha, 
+		FirebaseDatabase.getInstance().getReference(DbNames.Ordenes)
+		.push()
+		.setValue(new MandaditosDataModel(mUserId,Usuario, Partida, Destino, Distancia, Fecha, 
 												ETA, RecogerDineroEn, Costo, EstadoDeOrden, LatLngA, LatLngB));
 	}
 

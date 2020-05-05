@@ -7,12 +7,10 @@ import android.support.v7.widget.*;
 import android.widget.*;
 import com.google.firebase.database.*;
 import com.mandaditos.cliente.*;
-import com.mandaditos.cliente.mMandaditos.*;
+import com.mandaditos.cliente.models.*;
 import java.util.*;
 
 import com.mandaditos.cliente.R;
-import com.mandaditos.cliente.mUtilities.*;
-import android.util.*;
 
 public class mDashboard extends AppCompatActivity
 {
@@ -52,23 +50,21 @@ public class mDashboard extends AppCompatActivity
 			List<MandaditosDataModel> ordersList = new ArrayList<MandaditosDataModel>();
             for (DataSnapshot postSnapshot : p1.getChildren()) {
 				MandaditosDataModel m = new MandaditosDataModel();
-					m.setMUserId(postSnapshot.child("muserId").getValue().toString());
-					m.setUsuario(postSnapshot.child("usuario").getValue().toString());
-					m.setPartida(postSnapshot.child("partida").getValue().toString());
-					m.setDestino(postSnapshot.child("destino").getValue().toString());
-					m.setDistancia(postSnapshot.child("distancia").getValue().toString());
-					m.setFecha(postSnapshot.child("fecha").getValue().toString());
-					m.setETA(postSnapshot.child("eta").getValue().toString());
-					m.setRecogerDineroEn(postSnapshot.child("recogerDineroEn").getValue().toString());
-					m.setCosto(postSnapshot.child("costo").getValue().toString());
-					m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
-					m.setNumeroDeOrden(postSnapshot.getKey().toString());
-					if(m.getMUserId().toString().matches(uId)){
-						ordersList.add(m);
-					}
-					
-                
+				m.setMUserId(postSnapshot.child("muserId").getValue().toString());
+				m.setUsuario(postSnapshot.child("usuario").getValue().toString());
+				m.setPartida(postSnapshot.child("partida").getValue().toString());
+				m.setDestino(postSnapshot.child("destino").getValue().toString());
+				m.setDistancia(postSnapshot.child("distancia").getValue().toString());
+				m.setFecha(postSnapshot.child("fecha").getValue().toString());
+				m.setETA(postSnapshot.child("eta").getValue().toString());
+				m.setRecogerDineroEn(postSnapshot.child("recogerDineroEn").getValue().toString());
+				m.setCosto(postSnapshot.child("costo").getValue().toString());
+				m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
+				m.setNumeroDeOrden(postSnapshot.getKey().toString());
+				if(m.getMUserId().toString().matches(uId)){
+					ordersList.add(m);
             }
+			}
 		
 			
 			mAdapter adapter = new mAdapter(mDashboard.this,ordersList);
