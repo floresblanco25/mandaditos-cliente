@@ -162,16 +162,16 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	}
 
 
-	private static final String SHARED_PREFS = "sharedPrefs";
+	private final String SHARED_PREFS = "sharedPrefs";
 
-	public static void saveData(Context context, String key,String data) {
+	public void saveData(Context context, String key,String data) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putString(key, data);
-		editor.apply();
+		editor.commit();
 	}
 
-	public static String loadData(Context context,String key) {
+	public String loadData(Context context,String key) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		String text = sharedPreferences.getString(key, "");
 		return text;

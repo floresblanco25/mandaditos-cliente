@@ -103,7 +103,7 @@ public class mDashboard extends AppCompatActivity
 		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putString(key, data);
-		editor.apply();
+		editor.commit();
 	}
 
 	public  String loadData(Context context,String key) {

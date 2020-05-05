@@ -31,7 +31,11 @@ public class Home extends AppCompatActivity
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
 		TextView title =toolbar.findViewById(R.id.toolbarmainTitle);
+		//TODO load data from firestore database
 		String Usuario =loadData(Home.this,"name");
+		int index = Usuario.indexOf(' ');
+		Usuario = Usuario.substring(0, index);
+		
 		title.setText("Bienvenido "+Usuario+", ¿En que podemos ayudarte?");
 		
 		RecyclerView mRecyclerView = findViewById(R.id.recycler_services);
@@ -113,16 +117,16 @@ public boolean onOptionsItemSelected(MenuItem item) {
     }
     return super.onOptionsItemSelected(item);
 }
-	private static final String SHARED_PREFS = "sharedPrefs";
+	private final String SHARED_PREFS = "sharedPrefs";
 
-	public static void saveData(Context context, String key,String data) {
-		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+	public void saveData(Context context, String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		editor.putString(key, data);
-		editor.apply();
+		editor.commit();
 	}
 
-	public static String loadData(Context context,String key) {
+	public String loadData(Context context,String key) {
 		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
 		String text = sharedPreferences.getString(key,"");
 		return text;
