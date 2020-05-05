@@ -3,10 +3,21 @@ package com.mandaditos.cliente.mLoginFolder;
 public class mUser {
 
     private String Nombre;
+	
+	private String mUserId;
 
-    public mUser(String Nombre) {
-        this.Nombre = Nombre;
+    public mUser() {
     }
+
+	public void setMUserId(String mUserId)
+	{
+		this.mUserId = mUserId;
+	}
+
+	public String getMUserId()
+	{
+		return mUserId;
+	}
 
 	public void setNombre(String n)
 	{
