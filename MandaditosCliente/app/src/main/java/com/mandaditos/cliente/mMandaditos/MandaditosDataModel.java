@@ -16,12 +16,13 @@ public class MandaditosDataModel
 	private LatLng LatLngA;
 	private LatLng LatLngB;
 	private String NumeroDeOrden;
+	private String mUserId;
 	
 	public MandaditosDataModel(){
 		
 	}
 
-    public MandaditosDataModel(
+    public MandaditosDataModel(String mUserId,
 	String Usuario,String Partida, String Destino, String Distancia, String Fecha, 
 	String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden,LatLng LatLngA,
 	LatLng LatLngB
@@ -37,6 +38,17 @@ public class MandaditosDataModel
 		this.LatLngA=LatLngA;
 		this.Usuario=Usuario;
 		this.LatLngB=LatLngB;
+		this.mUserId=mUserId;
+		}
+
+		public void setMUserId(String mUserId)
+		{
+			this.mUserId = mUserId;
+		}
+
+		public String getMUserId()
+		{
+			return mUserId;
 		}
 
 		public void setNumeroDeOrden(String numeroDeOrden)

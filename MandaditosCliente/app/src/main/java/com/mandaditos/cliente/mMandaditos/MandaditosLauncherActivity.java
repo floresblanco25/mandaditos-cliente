@@ -57,9 +57,10 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	public void onGatherAllData(
 		String Usuario, String Partida, String Destino, String Distancia, String Fecha, String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden, LatLng LatLngA, LatLng LatLngB){
 		//push data
+		String mUserId = loadData(MandaditosLauncherActivity.this,"mUserId");
 			FirebaseDatabase.getInstance().getReference(DbNames.Ordenes)
 			.push()
-			.setValue(new MandaditosDataModel(Usuario, Partida, Destino, Distancia, Fecha, 
+			.setValue(new MandaditosDataModel(mUserId,Usuario, Partida, Destino, Distancia, Fecha, 
 												ETA, RecogerDineroEn, Costo, EstadoDeOrden, LatLngA, LatLngB));
 	}
 
@@ -161,7 +162,21 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 	}
 
 
+	private static final String SHARED_PREFS = "sharedPrefs";
 
+	public static void saveData(Context context, String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(key, data);
+		editor.apply();
+	}
+
+	public static String loadData(Context context,String key) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		String text = sharedPreferences.getString(key, "");
+		return text;
+	}
+	
 
 
 

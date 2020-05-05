@@ -1,42 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical"
-	android:gravity="left|center"
-	android:padding="16dp"
-	android:background="@color/background">
-
 	<LinearLayout
-		android:orientation="horizontal"
+		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="match_parent"
+		android:orientation="vertical"
+		android:gravity="left|center"
+		android:padding="16dp"
+		android:background="@color/background">
 
-		<ImageView
-			android:src="@drawable/menu_icon"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:tint="#402B60"
-			android:layout_gravity="left|center"/>
+		
+		<include 
+			layout="@layout/toolbar_main"/>
+		
+		
 
-		<TextView
+		<android.support.v7.widget.RecyclerView
+			xmlns:app="http://schemas.android.com/apk/res-auto"
+			android:id="@+id/recycler_services"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/welcome_how_can_i_help_you"
-			android:gravity="center"
-			style="@style/title"/>
+			android:layout_height="match_parent"
+			android:layout_marginTop="16dp">
+
+		</android.support.v7.widget.RecyclerView>
 
 	</LinearLayout>
 
-	<android.support.v7.widget.RecyclerView
-		xmlns:app="http://schemas.android.com/apk/res-auto"
-		android:id="@+id/recycler_services"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:layout_marginTop="16dp">
-
-	</android.support.v7.widget.RecyclerView>
-
-</LinearLayout>
 

@@ -9,6 +9,7 @@ import android.view.*;
 import android.widget.*;
 import com.google.android.gms.tasks.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.*;
 import com.mandaditos.cliente.*;
 
 import com.mandaditos.cliente.R;
@@ -18,6 +19,8 @@ public class LoginActivity extends AppCompatActivity
 	private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 	FirebaseAuth mFirebaseAuth;
+	DatabaseReference mDataBase;
+	
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 	
     EditText emailText;
@@ -86,6 +89,30 @@ public class LoginActivity extends AppCompatActivity
 											Toast.makeText(LoginActivity.this,"Login Error, Please Login Again",Toast.LENGTH_SHORT).show();
 										}
 										else{
+											//aqui obtenemos el nombre del usuario
+											mFirebaseAuth = FirebaseAuth.getInstance();
+											mDataBase = FirebaseDatabase.getInstance().getReference();
+											FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+											String email = mFirebaseUser.getEmail().toString();
+											int index = email.indexOf('@');
+											email = email.substring(0, index);
+											String userId = email.toLowerCase();
+											DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Usuarios/" + userId + "/Perfil").child("nombre");
+											ref.addListenerForSingleValueEvent(new ValueEventListener() {
+													@Override
+													public void onDataChange(DataSnapshot dataSnapshot) {
+														String Usuario = dataSnapshot.getValue(String.class);
+														saveData(LoginActivity.this,"name",Usuario);
+													}
+
+													@Override
+													public void onCancelled(DatabaseError databaseError) {
+
+													}
+												});
+											mUser user = new mUser();
+											user.setmUserId(mFirebaseUser.getUid().toString());
+											saveData(LoginActivity.this,"mUserId",user.getmUserId());
 											Intent intToHome = new Intent(LoginActivity.this,Home.class);
 											startActivity(intToHome);
 										}
@@ -124,6 +151,22 @@ public class LoginActivity extends AppCompatActivity
 		mFirebaseAuth.addAuthStateListener(mAuthStateListener);
 	}
 
+	
+	private static final String SHARED_PREFS = "sharedPrefs";
+
+	public static void saveData(Context context, String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(key, data);
+		editor.apply();
+	}
+
+	public static String loadData(Context context,String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		String text = sharedPreferences.getString(key, data);
+		return text;
+	}
+	
 	
 	
 }

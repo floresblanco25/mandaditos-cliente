@@ -73,7 +73,9 @@ public class SignupActivity extends AppCompatActivity
 										String userId = email.toLowerCase();
 										mUser user = new mUser();
 										user.setNombre(nameEd.getText().toString());
-										user.setMUserId(mFirebaseUser.getUid().toString());
+										user.setmUserId(mFirebaseUser.getUid().toString());
+										saveData(SignupActivity.this,"mUserId",user.getmUserId());
+										saveData(SignupActivity.this,"name",nameEd.getText().toString());
 										mDataBase.child("Usuarios/" + userId + "/Perfil").setValue(user);
 										startActivity(new Intent(SignupActivity.this,Home.class));
 									}
@@ -94,6 +96,21 @@ public class SignupActivity extends AppCompatActivity
 				}
 			});
     }
+	
+	private static final String SHARED_PREFS = "sharedPrefs";
+
+	public static void saveData(Context context, String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(key, data);
+		editor.apply();
+	}
+
+	public static String loadData(Context context,String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		String text = sharedPreferences.getString(key, data);
+		return text;
+	}
 
 	}
 	

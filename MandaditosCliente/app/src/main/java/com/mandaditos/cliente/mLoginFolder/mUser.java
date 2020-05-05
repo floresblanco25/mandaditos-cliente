@@ -9,12 +9,12 @@ public class mUser {
     public mUser() {
     }
 
-	public void setMUserId(String mUserId)
+	public void setmUserId(String mUserId)
 	{
 		this.mUserId = mUserId;
 	}
 
-	public String getMUserId()
+	public String getmUserId()
 	{
 		return mUserId;
 	}

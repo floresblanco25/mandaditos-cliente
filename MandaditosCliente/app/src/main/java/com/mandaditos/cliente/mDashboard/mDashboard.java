@@ -21,6 +21,7 @@ public class mDashboard extends AppCompatActivity
 	DondeRecogerDineroTv,CostoTv,EstadoDeOrdenTv;
 	private Context context;
 	private ProgressDialog pDialog;
+	private String uId;
 	
 	
 	@Override
@@ -28,6 +29,10 @@ public class mDashboard extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
+		uId= loadData(mDashboard.this,"mUserId");
+		
+		
+		
 		mDataBase = FirebaseDatabase.getInstance().getReference("Ordenes");
 		
 		//dialog 
@@ -36,27 +41,32 @@ public class mDashboard extends AppCompatActivity
 		pDialog.show();
 		
 		mDataBase.addValueEventListener(new ValueEventListener(){
+
+				
 	@Override
 	public void onDataChange(DataSnapshot p1)
 	{
 		pDialog.dismiss();
 		if(p1.exists()){
+			
 			List<MandaditosDataModel> ordersList = new ArrayList<MandaditosDataModel>();
             for (DataSnapshot postSnapshot : p1.getChildren()) {
 				MandaditosDataModel m = new MandaditosDataModel();
-				m.setUsuario(postSnapshot.child("usuario").getValue().toString());
-				m.setPartida(postSnapshot.child("partida").getValue().toString());
-				m.setDestino(postSnapshot.child("destino").getValue().toString());
-				m.setDistancia(postSnapshot.child("distancia").getValue().toString());
-				m.setFecha(postSnapshot.child("fecha").getValue().toString());
-				m.setETA(postSnapshot.child("eta").getValue().toString());
-				m.setRecogerDineroEn(postSnapshot.child("recogerDineroEn").getValue().toString());
-				m.setCosto(postSnapshot.child("costo").getValue().toString());
-				m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
-				m.setNumeroDeOrden(postSnapshot.getKey().toString());
-//				if(postSnapshot.child("usuario").getValue().toString().toLowerCase().matches(usuario)){
-					ordersList.add(m);
-//				}
+					m.setMUserId(postSnapshot.child("muserId").getValue().toString());
+					m.setUsuario(postSnapshot.child("usuario").getValue().toString());
+					m.setPartida(postSnapshot.child("partida").getValue().toString());
+					m.setDestino(postSnapshot.child("destino").getValue().toString());
+					m.setDistancia(postSnapshot.child("distancia").getValue().toString());
+					m.setFecha(postSnapshot.child("fecha").getValue().toString());
+					m.setETA(postSnapshot.child("eta").getValue().toString());
+					m.setRecogerDineroEn(postSnapshot.child("recogerDineroEn").getValue().toString());
+					m.setCosto(postSnapshot.child("costo").getValue().toString());
+					m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
+					m.setNumeroDeOrden(postSnapshot.getKey().toString());
+					if(m.getMUserId().toString().matches(uId)){
+						ordersList.add(m);
+					}
+					
                 
             }
 		
@@ -71,6 +81,8 @@ public class mDashboard extends AppCompatActivity
 		else{
 		}
 	}
+	
+				
 
 	@Override
 	public void onCancelled(DatabaseError p1)
@@ -79,24 +91,26 @@ public class mDashboard extends AppCompatActivity
 	});
 	
 	
-		
-		
-		
-		
-		
 	
 	
 	
 	
-	
-
-		
-
-		
-		
-		
-		
 		}
+		
+	private  String SHARED_PREFS = "sharedPrefs";
+
+	public  void saveData(Context context, String key,String data) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.putString(key, data);
+		editor.apply();
+	}
+
+	public  String loadData(Context context,String key) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+		String text = sharedPreferences.getString(key, "");
+		return text;
+	}
 	
 	@Override
 	public void onBackPressed() {

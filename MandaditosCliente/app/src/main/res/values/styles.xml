@@ -36,5 +36,19 @@
 		<item name="android:textColor">@color/info</item>
     </style>
 	
+	
+	<style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+		<item name="actionMenuTextColor">@android:color/white</item>
+		<item name="windowActionBar">true</item>
+		<item name="elevation">0dp</item>
+		<item name="android:background">#FFFFFF</item>
+
+	</style>
+
+	<style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+		<item name="android:textSize">21sp</item>
+		<item name="android:textStyle">normal</item>
+	</style>
+	
 </resources>
 
