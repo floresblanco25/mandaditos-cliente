@@ -31,13 +31,13 @@ public class mDashboard extends AppCompatActivity
 		
 		
 		
-		mDataBase = FirebaseDatabase.getInstance().getReference("Ordenes");
+		
 		
 		//dialog 
 		pDialog = new ProgressDialog(mDashboard.this);
 		pDialog.setMessage("Cargando datos de los servidores..");
 		pDialog.show();
-		
+		mDataBase = FirebaseDatabase.getInstance().getReference("Ordenes");
 		mDataBase.addValueEventListener(new ValueEventListener(){
 
 				
