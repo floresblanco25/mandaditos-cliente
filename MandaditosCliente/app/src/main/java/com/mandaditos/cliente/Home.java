@@ -8,17 +8,26 @@ import android.support.v7.widget.*;
 import android.view.*;
 import android.widget.*;
 import com.google.firebase.auth.*;
+import com.google.firebase.database.*;
 import com.mandaditos.cliente.mLoginFolder.*;
 import com.mandaditos.cliente.mUtilities.*;
 import java.util.*;
 
 import android.Manifest;
 import android.support.v7.widget.Toolbar;
+import android.util.*;
 public class Home extends AppCompatActivity
 {
 
 	private mHomeModel enviarpedido;
 	private RequestPermissionHandler mRequestPermissionHandler;
+
+	private FirebaseAuth mFirebaseAuth;
+
+	private DatabaseReference mDataBase;
+
+
+	private TextView title;
 	
 
 	
@@ -30,13 +39,31 @@ public class Home extends AppCompatActivity
 		//toolbar
 		Toolbar toolbar = findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		TextView title =toolbar.findViewById(R.id.toolbarmainTitle);
-		//TODO load data from firestore database
-		String Usuario =loadData(Home.this,"name");
-		int index = Usuario.indexOf(' ');
-		Usuario = Usuario.substring(0, index);
+		title =toolbar.findViewById(R.id.toolbarmainTitle);
+		//TODO load data from firestore database 
+		//aqui obtenemos el nombre del usuario
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		mDataBase = FirebaseDatabase.getInstance().getReference();
+		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+		String userId = mFirebaseUser.getUid().toString();
+		DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Usuarios/" + userId + "/Perfil").child("nombre");
+		ref.addListenerForSingleValueEvent(new ValueEventListener() {
+				@Override
+				public void onDataChange(DataSnapshot dataSnapshot) {
+					String t = dataSnapshot.getValue(String.class);
+					setNombreUsuario(t);
+					
+				}
+
+				@Override
+				public void onCancelled(DatabaseError databaseError) {
+
+				}
+			});
+
+			
+			
 		
-		title.setText("Bienvenido "+Usuario+", ¿En que podemos ayudarte?");
 		
 		RecyclerView mRecyclerView = findViewById(R.id.recycler_services);
 		GridLayoutManager mGridLayoutManager = new GridLayoutManager(Home.this, 2);
@@ -131,5 +158,25 @@ public boolean onOptionsItemSelected(MenuItem item) {
 		String text = sharedPreferences.getString(key,"");
 		return text;
 	}
+	public void erase(Context context) {
+		SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		editor.clear();
+		editor.commit();
+	}
+	private void setNombreUsuario(String t)
+	{
+		
+		String usuario = t;
+		try{
+		int index = usuario.indexOf(' ');
+		usuario = usuario.substring(0, index);
+		}catch(Exception e){Log.e("Couldent split name",e.toString());}
+		
+		
+		title.setText("Hola "+usuario+", ¿En que podemos ayudarte?");
+		
+	}
+	
 		
 }

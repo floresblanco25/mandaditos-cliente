@@ -93,10 +93,7 @@ public class LoginActivity extends AppCompatActivity
 											mFirebaseAuth = FirebaseAuth.getInstance();
 											mDataBase = FirebaseDatabase.getInstance().getReference();
 											FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-											String email = mFirebaseUser.getEmail().toString();
-											int index = email.indexOf('@');
-											email = email.substring(0, index);
-											String userId = email.toLowerCase();
+											String userId = mFirebaseUser.getUid().toString();
 											DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Usuarios/" + userId + "/Perfil").child("nombre");
 											ref.addListenerForSingleValueEvent(new ValueEventListener() {
 													@Override

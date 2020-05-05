@@ -67,10 +67,7 @@ public class SignupActivity extends AppCompatActivity
 													  
 													  
 										FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
-										String email = mFirebaseUser.getEmail().toString();
-										int index = email.indexOf('@');
-										email = email.substring(0, index);
-										String userId = email.toLowerCase();
+										String userId = mFirebaseUser.getUid().toString();
 										mUser user = new mUser();
 										user.setNombre(nameEd.getText().toString());
 										user.setmUserId(mFirebaseUser.getUid().toString());
