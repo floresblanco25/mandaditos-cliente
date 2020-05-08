@@ -16,14 +16,16 @@ public class MandaditosDataModel
 	private LatLng LatLngA;
 	private LatLng LatLngB;
 	private String NumeroDeOrden;
-	private String mUserId;
+	private String UserId;
+	private String DriverUid;
+	private String DriverAsignado;
 	
 	public MandaditosDataModel(){}
 
-    public MandaditosDataModel(String mUserId,
+    public MandaditosDataModel(String userId,
 	String Usuario,String Partida, String Destino, String Distancia, String Fecha, 
 	String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden,LatLng LatLngA,
-	LatLng LatLngB
+	LatLng LatLngB, String driverAsignado
 		) {
         this.Partida = Partida;
         this.Destino = Destino;
@@ -36,17 +38,39 @@ public class MandaditosDataModel
 		this.LatLngA=LatLngA;
 		this.Usuario=Usuario;
 		this.LatLngB=LatLngB;
-		this.mUserId=mUserId;
+		this.UserId=userId;
+		this.DriverAsignado = driverAsignado;
 		}
 
-		public void setMUserId(String mUserId)
+public void setDriverAsignado(String mNombreDriver)
+{
+this.DriverAsignado = mNombreDriver;
+}
+
+public String getDriverAsignado()
+{
+return DriverAsignado;
+}
+
+public void setDriverUid(String DriverUid)
+{
+this.DriverUid = DriverUid;
+}
+
+public String getDriverUid()
+{
+return DriverUid;
+}
+
+
+		public void setUserId(String UserId)
 		{
-			this.mUserId = mUserId;
+			this.UserId = UserId;
 		}
 
-		public String getMUserId()
+		public String getUserId()
 		{
-			return mUserId;
+			return UserId;
 		}
 
 		public void setNumeroDeOrden(String numeroDeOrden)

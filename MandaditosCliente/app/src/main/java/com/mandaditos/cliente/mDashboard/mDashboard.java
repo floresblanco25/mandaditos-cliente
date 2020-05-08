@@ -5,8 +5,10 @@ import android.os.*;
 import android.support.v7.app.*;
 import android.support.v7.widget.*;
 import android.widget.*;
+import com.google.firebase.auth.*;
 import com.google.firebase.database.*;
 import com.mandaditos.cliente.*;
+import com.mandaditos.cliente.mLoginFolder.*;
 import com.mandaditos.cliente.models.*;
 import java.util.*;
 
@@ -29,10 +31,6 @@ public class mDashboard extends AppCompatActivity
 		setContentView(R.layout.dashboard);
 		uId= loadData(mDashboard.this,"mUserId");
 		
-		
-		
-		
-		
 		//dialog 
 		pDialog = new ProgressDialog(mDashboard.this);
 		pDialog.setMessage("Cargando datos de los servidores..");
@@ -50,7 +48,7 @@ public class mDashboard extends AppCompatActivity
 			List<MandaditosDataModel> ordersList = new ArrayList<MandaditosDataModel>();
             for (DataSnapshot postSnapshot : p1.getChildren()) {
 				MandaditosDataModel m = new MandaditosDataModel();
-				m.setMUserId(postSnapshot.child("muserId").getValue().toString());
+				m.setUserId(postSnapshot.child("userId").getValue().toString());
 				m.setUsuario(postSnapshot.child("usuario").getValue().toString());
 				m.setPartida(postSnapshot.child("partida").getValue().toString());
 				m.setDestino(postSnapshot.child("destino").getValue().toString());
@@ -61,7 +59,8 @@ public class mDashboard extends AppCompatActivity
 				m.setCosto(postSnapshot.child("costo").getValue().toString());
 				m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
 				m.setNumeroDeOrden(postSnapshot.getKey().toString());
-				if(m.getMUserId().toString().matches(uId)){
+				m.setDriverAsignado(postSnapshot.child("driverAsignado").getValue().toString());
+				if(m.getUserId().toString().matches(uId)){
 					ordersList.add(m);
             }
 			}

@@ -36,6 +36,7 @@ public class mAdapter extends RecyclerView.Adapter<mViewHolder>
 		holder.CostoTv.setText(mDataList.get(position).getCosto());
 		holder.EstadoDeOrdenTv.setText(mDataList.get(position).getEstadoDeOrden());
 		holder.NumeroDeOrdenTv.setText(mDataList.get(position).getNumeroDeOrden());
+		holder.driverAsignadoTv.setText(mDataList.get(position).getDriverAsignado());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class mAdapter extends RecyclerView.Adapter<mViewHolder>
 
 class mViewHolder extends RecyclerView.ViewHolder {
 
-    TextView NumeroDeOrdenTv,PartidaTv,DestinoTv,DistanciaTv,FechaEtaTv,DondeRecogerDineroTv,CostoTv,EstadoDeOrdenTv;
+    TextView NumeroDeOrdenTv,PartidaTv,DestinoTv,DistanciaTv,FechaEtaTv,DondeRecogerDineroTv,CostoTv,EstadoDeOrdenTv,driverAsignadoTv;
 	private Context context;
 
     mViewHolder(View v) {
@@ -60,6 +61,7 @@ class mViewHolder extends RecyclerView.ViewHolder {
 				DondeRecogerDineroTv = v.findViewById(R.id.dashboardWhereGetMoney);
 				CostoTv = v.findViewById(R.id.dashboardTotalCost);
 				EstadoDeOrdenTv = v.findViewById(R.id.dashboardOrderStatus);
+				driverAsignadoTv = v.findViewById(R.id.conductorAsignadoDashboard);
 				context = v.getContext();
 
 		v.setOnClickListener(new OnClickListener(){
