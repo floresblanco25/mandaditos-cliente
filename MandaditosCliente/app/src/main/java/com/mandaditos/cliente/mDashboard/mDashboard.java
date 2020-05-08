@@ -19,9 +19,9 @@ public class mDashboard extends AppCompatActivity
 	DatabaseReference mDataBase;
 	TextView NumeroDeOrdenTv, PartidaTv,Destino,DistanciaTv,FechaEtaTv, 
 	DondeRecogerDineroTv,CostoTv,EstadoDeOrdenTv;
-	private Context context;
 	private ProgressDialog pDialog;
-	private String uId;
+	FirebaseAuth mFirebaseAuth;
+	
 	
 	
 	@Override
@@ -29,7 +29,10 @@ public class mDashboard extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dashboard);
-		uId= loadData(mDashboard.this,"mUserId");
+		mFirebaseAuth = FirebaseAuth.getInstance();
+		//obtenemos el uid
+		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
+		final String UserId = mFirebaseUser.getUid().toString();
 		
 		//dialog 
 		pDialog = new ProgressDialog(mDashboard.this);
@@ -60,7 +63,7 @@ public class mDashboard extends AppCompatActivity
 				m.setEstadoDeOrden(postSnapshot.child("estadoDeOrden").getValue().toString());
 				m.setNumeroDeOrden(postSnapshot.getKey().toString());
 				m.setDriverAsignado(postSnapshot.child("driverAsignado").getValue().toString());
-				if(m.getUserId().toString().matches(uId)){
+				if(m.getUserId().toString().matches(UserId)){
 					ordersList.add(m);
             }
 			}
