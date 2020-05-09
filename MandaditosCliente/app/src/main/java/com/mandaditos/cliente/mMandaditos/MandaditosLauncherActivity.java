@@ -55,15 +55,15 @@ MandaditosMain.Listener,MandaditosCkeckout.Listener
 
 
 	@Override
-	public void onGatherAllData(String Usuario, String Partida, String Destino, String Distancia, String Fecha, String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden, LatLng LatLngA, LatLng LatLngB){
+	public void onGatherAllData(String Usuario, String Partida, String Destino, String Distancia, String Fecha, String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden, LatLng LatLngA, LatLng LatLngB, String telefono){
 		//push data
 //obtenemos el uid
 		FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
 		String UserId = mFirebaseUser.getUid().toString();
 		FirebaseDatabase.getInstance().getReference(DbNames.Ordenes)
 		.push()
-		.setValue(new MandaditosDataModel(UserId,Usuario, Partida, Destino, Distancia, Fecha, 
-												ETA, RecogerDineroEn, Costo, EstadoDeOrden, LatLngA, LatLngB, "Sin asignar"));
+		.setValue(new mandaditosModel(UserId,Usuario, Partida, Destino, Distancia, Fecha, 
+												ETA, RecogerDineroEn, Costo, EstadoDeOrden, LatLngA, LatLngB, "Sin asignar",telefono));
 	}
 
 

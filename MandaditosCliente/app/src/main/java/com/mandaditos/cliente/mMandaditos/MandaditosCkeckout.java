@@ -34,6 +34,7 @@ public class MandaditosCkeckout extends Fragment
 	FirebaseAuth mFirebaseAuth;
 	DatabaseReference mDataBase;
 	private String Usuario;
+	private EditText telefonoEd;
 
 
 	//interface
@@ -41,7 +42,7 @@ public class MandaditosCkeckout extends Fragment
 		void onGatherAllData(
 			String Usuario,String Partida, String Destino, String Distancia, String Fecha, 
 			String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden,LatLng LatLngA,
-			LatLng LatLngB
+			LatLng LatLngB, String telefono
 		);
     }
 
@@ -100,6 +101,7 @@ public class MandaditosCkeckout extends Fragment
 		distTotal = v.findViewById(R.id.totalDistance);
 		checkoutButton = v.findViewById(R.id.checkoutButtonProcess);
 		dondeRecogeremosEffectivo = v.findViewById(R.id.checkoutTextDonderecogerefectivo);
+//		telefonoEd = v.findViewById(R.id.telefoneEd);
 		
 
 
@@ -150,6 +152,7 @@ public class MandaditosCkeckout extends Fragment
 					LatLng LatLngA = latLngA ;
 					LatLng LatLngB = latLngB;
 					String RecogerDineroEn = where;
+//					String Telefono = telefonoEd.getText().toString();
 
 					if (money.getCheckedRadioButtonId() == -1)
 {
@@ -159,7 +162,7 @@ public class MandaditosCkeckout extends Fragment
 					else  if(!(money.getCheckedRadioButtonId()== -1)){
 						listener.onGatherAllData(
 							Usuario, Partida,  Destino,  Distancia,  Fecha, 
-							ETA,  RecogerDineroEn,  Costo,  EstadoDeOrden,LatLngA,LatLngB
+							ETA,  RecogerDineroEn,  Costo,  EstadoDeOrden,LatLngA,LatLngB, "00"
 												 );
 												 
 												 

@@ -13,9 +13,9 @@ public class mAdapter extends RecyclerView.Adapter<mViewHolder>
 {
 
     private Context mContext;
-    private List<MandaditosDataModel> mDataList;
+    private List<mandaditosModel> mDataList;
 
-    mAdapter(Context mContext, List< MandaditosDataModel > mDataList) {
+    mAdapter(Context mContext, List< mandaditosModel > mDataList) {
         this.mContext = mContext;
         this.mDataList = mDataList;
     }

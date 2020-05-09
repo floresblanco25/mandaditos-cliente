@@ -2,7 +2,7 @@ package com.mandaditos.cliente.models;
 import com.google.android.gms.maps.model.*;
 
 
-public class MandaditosDataModel
+public class mandaditosModel
 {
 	private String Usuario;
 	private String Partida;
@@ -19,13 +19,14 @@ public class MandaditosDataModel
 	private String UserId;
 	private String DriverUid;
 	private String DriverAsignado;
+	private String Telefono;
 	
-	public MandaditosDataModel(){}
+	public mandaditosModel(){}
 
-    public MandaditosDataModel(String userId,
+    public mandaditosModel(String userId,
 	String Usuario,String Partida, String Destino, String Distancia, String Fecha, 
 	String ETA, String RecogerDineroEn, String Costo, String EstadoDeOrden,LatLng LatLngA,
-	LatLng LatLngB, String driverAsignado
+	LatLng LatLngB, String driverAsignado, String Telefono
 		) {
         this.Partida = Partida;
         this.Destino = Destino;
@@ -40,7 +41,18 @@ public class MandaditosDataModel
 		this.LatLngB=LatLngB;
 		this.UserId=userId;
 		this.DriverAsignado = driverAsignado;
+		this.Telefono=Telefono;
 		}
+
+public void setTelefono(String telefono)
+{
+Telefono = telefono;
+}
+
+public String getTelefono()
+{
+return Telefono;
+}
 
 public void setDriverAsignado(String mNombreDriver)
 {

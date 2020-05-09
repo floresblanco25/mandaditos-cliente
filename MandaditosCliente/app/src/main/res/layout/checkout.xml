@@ -58,14 +58,14 @@
 					android:text="Residencial las amapolas, 23, san salvador"
 					android:padding="8dp"
 					android:id="@+id/checkoutAddressB"/>
-				
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="Distancia total"
 					style="@style/info"
 					android:padding="8dp"/>
-				
+
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
@@ -112,6 +112,53 @@
 					android:layout_height="1dp"
 					android:layout_marginBottom="16dp"/>
 
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content">
+
+					<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:text="INFORMACIÓN DEL CLIENTE A ENTREGAR"
+						android:layout_margin="8dp"/>
+
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="left|center_vertical">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Nombre:"
+							android:layout_margin="8dp"/>
+
+						<EditText
+							android:layout_width="wrap_content"
+							android:ems="10"
+							android:layout_height="wrap_content"/>
+
+					</LinearLayout>
+
+					<LinearLayout
+						android:orientation="horizontal"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="left|center_vertical">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="Teléfono"
+							android:layout_margin="8dp"/>
+
+
+					</LinearLayout>
+
+				</LinearLayout>
+
 				<TextView
 					android:id="@+id/checkoutTextDonderecogerefectivo"
 					android:layout_width="wrap_content"
@@ -129,15 +176,13 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="Lugar de partida"
-						android:padding="8dp"
-						/>
+						android:padding="8dp"/>
 
 					<RadioButton
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:text="Lugar de destino"
-						android:padding="8dp"
-						/>
+						android:padding="8dp"/>
 
 				</RadioGroup>
 

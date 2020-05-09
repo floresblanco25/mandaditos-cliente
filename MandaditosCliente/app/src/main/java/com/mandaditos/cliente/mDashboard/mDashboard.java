@@ -48,9 +48,9 @@ public class mDashboard extends AppCompatActivity
 		pDialog.dismiss();
 		if(p1.exists()){
 			
-			List<MandaditosDataModel> ordersList = new ArrayList<MandaditosDataModel>();
+			List<mandaditosModel> ordersList = new ArrayList<mandaditosModel>();
             for (DataSnapshot postSnapshot : p1.getChildren()) {
-				MandaditosDataModel m = new MandaditosDataModel();
+				mandaditosModel m = new mandaditosModel();
 				m.setUserId(postSnapshot.child("userId").getValue().toString());
 				m.setUsuario(postSnapshot.child("usuario").getValue().toString());
 				m.setPartida(postSnapshot.child("partida").getValue().toString());
