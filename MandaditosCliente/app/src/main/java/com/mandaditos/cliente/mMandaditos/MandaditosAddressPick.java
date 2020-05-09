@@ -4,23 +4,25 @@ import android.app.*;
 import android.content.*;
 import android.location.*;
 import android.os.*;
-import android.text.*;
 import android.view.*;
 import android.view.View.*;
 import android.widget.*;
+import android.widget.LinearLayout.*;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 import com.mandaditos.cliente.*;
-import com.mandaditos.cliente.mMandaditos.*;
+import java.io.*;
+import java.util.*;
 
+import android.view.View.OnClickListener;
 import com.mandaditos.cliente.R;
-import android.support.v7.widget.*;
+import android.text.*;
 
 public class MandaditosAddressPick extends Fragment implements OnMapReadyCallback
 {
 	private MapView mapView;
     private GoogleMap gmap;
-	private Button okbtn;
+	private Button okbtn,BuscarButton;
 	private EditText edAddress;
 	private MarkerOptions marker;
 	public static String tag ="addresspicker";
@@ -35,6 +37,8 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 	
 	
 	private Listener listener;
+
+	private LatLng newLatLng;
 	//interface
 	public interface Listener {
         void sentAddress(CharSequence input,Boolean isPartidaaa, MarkerOptions markerOpt,LatLng LatLng);
@@ -143,8 +147,45 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 		mapView = v.findViewById(R.id.map_view_picker);
 		mapView.onCreate(mapViewBundle);
 		mapView.getMapAsync(this);
-
+//		BuscarButton = v.findViewById(R.id.BuscarmapmarkereditButton1);
+//
+//
+//		BuscarButton.setOnClickListener(new OnClickListener(){
+//
+//				@Override
+//				public void onClick(View p1)
+//				{
+//					searchLocation();
+//				}
+//			});
+//		
 		
+		edAddress.addTextChangedListener(new TextWatcher(){
+
+				@Override
+				public void beforeTextChanged(CharSequence p1, int p2, int p3, int p4)
+				{
+					// TODO: Implement this method
+				}
+
+				@Override
+				public void onTextChanged(CharSequence p1, int p2, int p3, int p4)
+				{
+					if (p1.length() > 0 && (p1.toString().contains("-") || p1.toString().contains("."))) {
+						try{
+							searchLocation();
+						}catch(Exception e){}
+					}
+					
+					// TODO: Implement this method
+				}
+
+				@Override
+				public void afterTextChanged(Editable p1)
+				{
+					// TODO: Implement this method
+				}
+			});
 		
 		
 		
@@ -256,6 +297,34 @@ public class MandaditosAddressPick extends Fragment implements OnMapReadyCallbac
 		marker=null;
 		edAddress.setError(null);
 	}
+
+//search
+	public void searchLocation() {  
+        String location = edAddress.getText().toString();  
+        List<Address> addressList = null;  
+
+        if (location != null || !location.equals("")) {  
+            Geocoder geocoder = new Geocoder(getActivity());  
+            try {  
+                addressList = geocoder.getFromLocationName(location, 1);  
+
+            } catch (IOException e) {  
+                e.printStackTrace();  
+            }  
+			try{
+				Address address = addressList.get(0);  
+				LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());  
+				gmap.clear();
+				marker = new MarkerOptions().position(latLng);
+				newLatLng = latLng;
+				gmap.addMarker(marker);
+				gmap.animateCamera(CameraUpdateFactory.newLatLng(latLng));  
+			}catch(Exception e){
+				Toast.makeText(getActivity(),"No hay lugares",Toast.LENGTH_LONG).show();
+			}
+
+        }  
+    }
 	
 	
 	
